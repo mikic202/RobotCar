@@ -36,7 +36,7 @@ public:
         std::vector<String> messages;
         if (client.available())
         {
-            String line = client.readStringUntil('\r');
+            String line = client.readStringUntil('\n');
             messages.emplace_back(line.substring(0, line.indexOf(";")));
             messages.emplace_back(line.substring(line.indexOf(";") + 1));
         }

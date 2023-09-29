@@ -53,7 +53,6 @@ void loop()
     {
       if (client.available())
       {
-        Serial.println("message:");
         auto messages = connector.getClientMessage();
         Serial.println(messages[0]);
         if (messages[0] == "end")
