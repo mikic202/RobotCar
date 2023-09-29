@@ -7,10 +7,14 @@ class Motor
 {
 public:
     Motor(){};
-    Motor(int forwardPin, int backwardPin) : forwardPin_(forwardPin), backwardPin_(backwardPin)
+    Motor(int forwardPin, int backwardPin, int pwmPin, int pwmChannel) : forwardPin_(forwardPin), backwardPin_(backwardPin), pwmPin_(pwmPin)
     {
         pinMode(forwardPin_, OUTPUT);
         pinMode(backwardPin_, OUTPUT);
+        pinMode(pwmPin_, OUTPUT);
+        ledcSetup(pwmChannel, 500, 8);
+        ledcAttachPin(pwmPin_, pwmChannel);
+        pwmChannel_ = pwmChannel;
     };
 
     void go_forward()
@@ -30,10 +34,17 @@ public:
         digitalWrite(forwardPin_, LOW);
         digitalWrite(backwardPin_, LOW);
     };
+    void setSpeed(float pwmValue)
+    {
+        Serial.println((pwmValue / 100) * 255);
+        ledcWrite(pwmChannel_, (pwmValue / 100) * 255);
+    };
 
 private:
+    int pwmChannel_;
     int forwardPin_;
     int backwardPin_;
+    int pwmPin_;
 };
 
 #endif

@@ -8,15 +8,15 @@
 
 #define SOUND_SPEED 0.034
 
-const int motorOne[] = {27, 26};
-const int motorTwo[] = {33, 25};
+const int motorOne[] = {27, 26, 19};
+const int motorTwo[] = {33, 25, 18};
 
 int echo = 32;
 int trigger = 12;
 int servoPin = 21;
 
-Motor firstMotor(motorOne[0], motorOne[1]);
-Motor secondMotor(motorTwo[0], motorTwo[1]);
+// Motor firstMotor(motorOne[0], motorOne[1], 19);
+// Motor secondMotor(motorTwo[0], motorTwo[1], 18);
 Robot robot(motorOne, motorTwo);
 Connector connector;
 DistanceMapper mapper(servoPin, trigger, echo);
@@ -53,6 +53,7 @@ void loop()
     {
       if (client.available())
       {
+        Serial.println("message:");
         auto messages = connector.getClientMessage();
         Serial.println(messages[0]);
         if (messages[0] == "end")

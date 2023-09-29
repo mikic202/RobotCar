@@ -8,10 +8,10 @@
 class Robot
 {
 public:
-    Robot(const int first_motor_pins[2], const int second_motor_pins[2])
+    Robot(const int first_motor_pins[3], const int second_motor_pins[3])
     {
-        right_motor = Motor(first_motor_pins[0], first_motor_pins[1]);
-        left_motor = Motor(second_motor_pins[0], second_motor_pins[1]);
+        right_motor = Motor(first_motor_pins[0], first_motor_pins[1], first_motor_pins[2], 5);
+        left_motor = Motor(second_motor_pins[0], second_motor_pins[1], second_motor_pins[2], 6);
     };
 
     void go_right(int moveTime)
@@ -34,6 +34,8 @@ public:
 
     void go_forward(int moveTime)
     {
+        right_motor.setSpeed(100);
+        left_motor.setSpeed(100);
         right_motor.go_forward();
         left_motor.go_forward();
         delay(moveTime);
@@ -43,6 +45,8 @@ public:
 
     void go_backwards(int moveTime)
     {
+        right_motor.setSpeed(70);
+        left_motor.setSpeed(70);
         right_motor.go_backwards();
         left_motor.go_backwards();
         delay(moveTime);
