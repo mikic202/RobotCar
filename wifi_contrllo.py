@@ -2,8 +2,10 @@ import sys
 import socket
 import threading
 import time
+import numpy as np
 from gpiozero import PWMOutputDevice, DigitalOutputDevice
-from Motor import Motor
+from HardwareClasses.Motor import Motor
+from HardwareClasses.MotorDrive import MotorDrive
 
 # first = DigitalOutputDevice(15)
 # second = DigitalOutputDevice(18)
@@ -11,8 +13,11 @@ from Motor import Motor
 
 # led = PWMOutputDevice(14)
 
-motor = Motor(15, 18, 14)
-motor2 = Motor(24, 25, 23)
+# motor = Motor(15, 18, 14)
+# motor2 = Motor(24, 25, 23)
+
+
+motor_controller = MotorDrive([Motor(15, 18, 14), Motor(24, 25, 23)])
 
 def handle_client(client_socket: socket, server: socket):
     reader = client_socket.makefile("r")
@@ -29,8 +34,7 @@ def handle_client(client_socket: socket, server: socket):
             #     # connection should be closed and break out of the loop
             #     client_socket.send("closed".encode("utf-8"))
             #     break
-            motor.set_pwm(float(values[1])/100)
-            motor2.set_pwm(float(values[0])/100)
+            motor_controller.set_pwms([float(val)/100 for val in values])
             # convert and send accept response to the client
     finally:
         reader.close()
