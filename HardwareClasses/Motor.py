@@ -19,7 +19,7 @@ class Motor:
         self._second_enable_output.off()
 
     def set_pwm(self, pwm_value: float):
-        if pwm_value == 0:
+        if pwm_value < 0.4:
             self.reset()
         if pwm_value > 0:
             self._first_enable_output.on()

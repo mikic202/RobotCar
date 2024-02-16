@@ -21,6 +21,8 @@ motor_controller = MotorDrive([Motor(15, 18, 14), Motor(24, 25, 23)])
 
 def handle_client(client_socket: socket, server: socket):
     reader = client_socket.makefile("r")
+    reader.readline()
+    # sleep(1)
     try:
         while True:
             request = reader.readline() # convert bytes to string
