@@ -16,12 +16,16 @@ class Motor:
         self._enable_pin.off()
         self._pwm_output.off()
 
+    def breaks(self):
+        self._enable_pin.on()
+        self._pwm_output.on()
+
     def set_pwm(self, pwm_value: float):
-        if pwm_value < 0.4:
+        if abs(pwm_value) < 0.4:
             self.reset()
-        if pwm_value > 0:
+        elif pwm_value > 0:
             self._enable_pin.off()
             self._pwm_output.value = min(abs(pwm_value), self.max_pwm)
         else:
-            self._enable_pin.off()
+            self._enable_pin.on()
             self._pwm_output.value = min(1-abs(pwm_value), self.max_pwm)
