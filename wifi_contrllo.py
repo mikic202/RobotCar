@@ -17,7 +17,7 @@ from HardwareClasses.MotorDrive import MotorDrive
 # motor2 = Motor(24, 25, 23)
 
 
-motor_controller = MotorDrive([Motor(15, 18, 14), Motor(24, 25, 23)])
+motor_controller = MotorDrive([Motor(14, 15), Motor(23, 24)])
 
 def handle_client(client_socket: socket, server: socket):
     reader = client_socket.makefile("r")

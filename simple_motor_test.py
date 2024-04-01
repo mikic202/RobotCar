@@ -2,7 +2,7 @@ import gpiod
 import time
 from HardwareClasses.Motor import Motor
 
-motor = Motor(14, 15)
+motor = Motor(23, 24)
 
 try:
    while True:
