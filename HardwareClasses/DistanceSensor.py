@@ -10,6 +10,7 @@ class DistanceSensor:
         self._i2c_bus = i2c_bus
         self._off_pin = DigitalOutputDevice(off_pin)
         self._vl53l0x = adafruit_vl53l0x.VL53L0X(self._i2c_bus)
+        self._off_pin.off()
 
     def __call__(self) -> float:
         return self._vl53l0x.range
