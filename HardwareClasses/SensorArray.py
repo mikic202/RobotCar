@@ -1,9 +1,7 @@
 from HardwareClasses.DistanceSensor import DistanceSensor
 from gpiozero import DigitalOutputDevice
 from typing import List
-import time
 import board
-from adafruit_vl53l0x import VL53L0X
 
 class SensorArray:
     def __init__(self, sensor_pins_list: List[int]):
@@ -12,9 +10,9 @@ class SensorArray:
         self._init_sensors(sensor_pins_list)
 
     def _init_sensors(self, sensor_pins_list: List[int]):
-        for adress, pin in enumerate(sensor_pins_list):
-            sensor = DistanceSensor(self._i2c, DigitalOutputDevice(pin))
-            sensor.set_address(0x30 + adress)
+        for adress, (pin, angle) in enumerate(sensor_pins_list):
+            sensor = DistanceSensor(self._i2c, DigitalOutputDevice(pin), angle)
+            # sensor.set_address(0x30 + adress)
             self._sensors_list.append(sensor)
 
     def __call__(self):
@@ -22,6 +20,6 @@ class SensorArray:
 
 
 if __name__ == "__main__":
-    array = SensorArray([25, 12, 1])
+    array = SensorArray([(5,-90), (25,-45), (12, 0), (1, 45), (21, 90)])
 
     print(array())
