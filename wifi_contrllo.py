@@ -19,15 +19,16 @@ from HardwareClasses.MotorDrive import MotorDrive
 
 motor_controller = MotorDrive([Motor(14, 15), Motor(23, 24)])
 
+
 def handle_client(client_socket: socket, server: socket):
     reader = client_socket.makefile("r")
     reader.readline()
     # sleep(1)
     try:
         while True:
-            request = reader.readline() # convert bytes to string
+            request = reader.readline()  # convert bytes to string
             print(request)
-            values = str(request).strip().split(';')
+            values = str(request).strip().split(";")
             print(values)
             # if we receive "close" from the client, then we break
             # out of the loop and close the conneciton
@@ -36,7 +37,7 @@ def handle_client(client_socket: socket, server: socket):
             #     # connection should be closed and break out of the loop
             #     client_socket.send("closed".encode("utf-8"))
             #     break
-            motor_controller.set_pwms([float(val)/100 for val in values])
+            motor_controller.set_pwms([float(val) / 100 for val in values])
             # convert and send accept response to the client
     finally:
         reader.close()
@@ -47,6 +48,7 @@ def handle_client(client_socket: socket, server: socket):
 
     print("Connection to client closed")
     # close server socket
+
 
 def run_server():
     # create a socket object

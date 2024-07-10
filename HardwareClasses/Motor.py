@@ -28,4 +28,4 @@ class Motor:
             self._pwm_output.value = min(abs(pwm_value), self.max_pwm)
         else:
             self._enable_pin.on()
-            self._pwm_output.value = min(1-abs(pwm_value), self.max_pwm)
+            self._pwm_output.value = min(1 - abs(pwm_value), self.max_pwm)

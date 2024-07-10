@@ -6,7 +6,9 @@ import adafruit_vl53l0x
 
 
 class DistanceSensor:
-    def __init__(self, i2c_bus: busio.I2C, off_pin: DigitalOutputDevice, angle: int) -> None:
+    def __init__(
+        self, i2c_bus: busio.I2C, off_pin: DigitalOutputDevice, angle: int
+    ) -> None:
         self._off_pin = off_pin
         self._angle = angle
         self._off_pin.on()

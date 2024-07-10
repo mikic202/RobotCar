@@ -1,6 +1,7 @@
 from typing import List
 from HardwareClasses.Motor import Motor
 
+
 class MotorDrive:
     def __init__(self, motors: List[Motor]) -> None:
         self._motors = motors
