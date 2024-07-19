@@ -11,6 +11,7 @@ class SensorArray:
         self._sensors_list = []
         self._i2c = board.I2C()
         self._init_sensors(sensor_pins_list)
+        self._latest_data = []
 
     def _init_sensors(self, sensor_pins_list: List[int]):
         for adress, (pin, angle) in enumerate(sensor_pins_list):
@@ -19,7 +20,11 @@ class SensorArray:
             self._sensors_list.append(sensor)
 
     def __call__(self):
-        return [(sensor(), sensor._angle) for sensor in self._sensors_list]
+        self._latest_data = [(sensor(), sensor._angle) for sensor in self._sensors_list]
+        return self._latest_data
+
+    def get_latest_data(self):
+        return self._latest_data
 
     def reset_addresses(self):
         for sensor in self._sensors_list:
