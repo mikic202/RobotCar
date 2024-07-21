@@ -18,3 +18,8 @@ class RemoteRegulator:
         request = self._client_reader.readline()  # convert bytes to string
         values = str(request).strip().split(";")
         return [float(val) / 100 for val in values]
+
+    def close(self):
+        self._client_reader.close()
+        self._client_socket.close()
+        self._server_socket.close()
