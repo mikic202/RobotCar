@@ -2,10 +2,11 @@ import sys
 import socket
 import threading
 import time
-import numpy as np
 from gpiozero import PWMOutputDevice, DigitalOutputDevice
 from HardwareClasses.Motor import Motor
 from HardwareClasses.MotorDrive import MotorDrive
+
+from Regulators.RemoteRegulator import RemoteRegulator
 
 # first = DigitalOutputDevice(15)
 # second = DigitalOutputDevice(18)
@@ -80,5 +81,21 @@ def run_server():
 
     # receive data from the client
 
+def run():
+    remote_regulator = RemoteRegulator()
+    try:
+        while True:
+            # if we receive "close" from the client, then we break
+            # out of the loop and close the conneciton
+            # if request.lower() == "close":
+            #     # send response to the client which acknowledges that the
+            #     # connection should be closed and break out of the loop
+            #     client_socket.send("closed".encode("utf-8"))
+            #     break
+            motor_controller.set_pwms(remote_regulator.get_controll([]))
+            # convert and send accept response to the client
+    finally:
+        remote_regulator.close()
 
-run_server()
+
+run()
