@@ -13,3 +13,7 @@ class Logger(ABC):
     @abstractmethod
     def log(self, data: Dict[str, Any]):
         pass
+
+    @abstractmethod
+    def close(self):
+        pass

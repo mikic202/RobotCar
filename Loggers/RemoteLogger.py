@@ -14,3 +14,6 @@ class RemoteLogger(Logger):
 
     def log(self, data: dict):
         self._socket.sendall(str(data).encode())
+
+    def close(self):
+        self._socket.close()
