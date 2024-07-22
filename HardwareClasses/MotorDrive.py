@@ -11,3 +11,6 @@ class MotorDrive:
     def set_pwms(self, pwms: List[float]):
         for motor, pwm in zip(self._motors, pwms):
             motor.set_pwm(pwm)
+
+    def get_pwms(self):
+        return [motor.get_pwm() for motor in self._motors]

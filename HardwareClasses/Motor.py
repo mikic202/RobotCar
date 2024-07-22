@@ -11,6 +11,7 @@ class Motor:
         self._enable_pin = DigitalOutputDevice(logic_input_2)
         self.reset()
         self.max_pwm = max_pwm
+        self._current_pwm = 0
 
     def reset(self):
         self._enable_pin.off()
@@ -21,6 +22,7 @@ class Motor:
         self._pwm_output.on()
 
     def set_pwm(self, pwm_value: float):
+        self._current_pwm = pwm_value
         if abs(pwm_value) < 0.4:
             self.reset()
         elif pwm_value > 0:
@@ -29,3 +31,6 @@ class Motor:
         else:
             self._enable_pin.on()
             self._pwm_output.value = min(1 - abs(pwm_value), self.max_pwm)
+
+    def get_pwm(self):
+        return self._current_pwm
