@@ -1,10 +1,11 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from HardwareClasses.MotorDrive import MotorDrive
 from HardwareClasses.SensorArray import SensorArray
 from Loggers.Logger import Logger
 from Regulators.Regulator import Regulator
 from time import sleep
 from threading import Thread
+import json
 
 
 def convert_sensor_data_to_dict(data):
@@ -23,10 +24,10 @@ class Robot(ABC):
         self._regulator = regulator
 
     def log_sensor_data(self):
-        self._sensor_logger.log(convert_sensor_data_to_dict(self._sensor_array.get_latest_data()))
+        self._sensor_logger.log(json.dumps(convert_sensor_data_to_dict(self._sensor_array.get_latest_data())))
 
     def log_motor_data(self):
-        self._motor_logger.log(convert_motor_data_to_dict(self._motor_drive.get_pwms()))
+        self._motor_logger.log(json.dumps(convert_motor_data_to_dict(self._motor_drive.get_pwms())))
 
     def _start_loggers(self):
         try:
@@ -41,12 +42,12 @@ class Robot(ABC):
     def _run(self):
         try:
             while True:
-                self._motor_drive.set_pwms(self._regulator.get_controll(self._sensor_array.get_latest_data()))
+                self._motor_drive.set_pwms(self._regulator.get_controll(self._sensor_array()))
                 sleep(0.1)
         finally:
             self._motor_drive.set_pwms([0] * len(self._motor_drive.get_pwms()))
+            self._sensor_array.reset_addresses()
 
-    @abstractmethod
     def __call__(self):
         Thread(target=self._start_loggers).start()
         self._run()
