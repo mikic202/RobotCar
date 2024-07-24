@@ -13,3 +13,6 @@ class LocalLogger(Logger):
 
     def log(self, data: Dict[str, Any]):
         self._logger.info(json.dumps(data))
+
+    def close(self):
+        pass
