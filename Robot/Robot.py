@@ -42,7 +42,7 @@ class Robot(ABC):
     def _run(self):
         try:
             while True:
-                self._motor_drive.set_pwms(self._regulator.get_controll(self._sensor_array()))
+                self._motor_drive.set_pwms(self._regulator.get_controll([data[0] for data in self._sensor_array()]))
                 sleep(0.1)
         finally:
             self._motor_drive.set_pwms([0] * len(self._motor_drive.get_pwms()))
