@@ -1,11 +1,11 @@
 from HardwareClasses.SensorArray import SensorArray
 from Loggers.RemoteLogger import RemoteLogger
+from Loggers.LocalLogger import LocalLogger
 from HardwareClasses.MotorDrive import MotorDrive
-from Robot.Robot import Robot
+from Robot.DifferentialRobot import DifferentialRobot
 from HardwareClasses.Motor import Motor
 from Regulators.RemoteRegulator import RemoteRegulator
 from Regulators.PID import PID
-from Loggers.LocalLogger import LocalLogger
 import time
 
 
@@ -21,8 +21,8 @@ if __name__ == "__main__":
         time.sleep(0.5)
         controll_logger = LocalLogger("contr.txt")
         print("Loggers established")
-        remote_regulator = PID(1, 1, 1, 0.5, 5, [0, 0, 0, 0, 0])
-        robot = Robot(motor_drive, array, sensor_logger, controll_logger, remote_regulator)
+        regulator = PID(6, 10, 5, 0.5, 1, [150])
+        robot = DifferentialRobot(motor_drive, array, sensor_logger, controll_logger, regulator)
         robot()
     finally:
         array.reset_addresses()

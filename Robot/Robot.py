@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from HardwareClasses.MotorDrive import MotorDrive
 from HardwareClasses.SensorArray import SensorArray
 from Loggers.Logger import Logger
@@ -42,7 +42,7 @@ class Robot(ABC):
     def _run(self):
         try:
             while True:
-                self._motor_drive.set_pwms(self._regulator.get_controll([data[0] for data in self._sensor_array()]))
+                self._apply_new_controls()
                 sleep(0.1)
         finally:
             self._motor_drive.set_pwms([0] * len(self._motor_drive.get_pwms()))
@@ -51,3 +51,7 @@ class Robot(ABC):
     def __call__(self):
         Thread(target=self._start_loggers).start()
         self._run()
+
+    @abstractmethod
+    def _apply_new_controls(self):
+        pass
