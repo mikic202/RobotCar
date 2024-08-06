@@ -3,6 +3,7 @@ from typing import Dict, Any
 import logging
 import json
 
+
 class LocalLogger(Logger):
     def __init__(self, file_path: str):
         self._file_path = file_path

@@ -22,7 +22,9 @@ if __name__ == "__main__":
         controll_logger = LocalLogger("contr.txt")
         print("Loggers established")
         regulator = PID(6, 10, 5, 0.5, 1, [150])
-        robot = DifferentialRobot(motor_drive, array, sensor_logger, controll_logger, regulator)
+        robot = DifferentialRobot(
+            motor_drive, array, sensor_logger, controll_logger, regulator
+        )
         robot()
     finally:
         array.reset_addresses()

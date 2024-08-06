@@ -3,7 +3,15 @@ import numpy as np
 
 
 class PID:
-    def __init__(self, K: float, Ti: float, Td: float, Tp: float, number_of_inputs: int, setpoints: List[float]) -> None:
+    def __init__(
+        self,
+        K: float,
+        Ti: float,
+        Td: float,
+        Tp: float,
+        number_of_inputs: int,
+        setpoints: List[float],
+    ) -> None:
         self.K = K
         self.Ti = Ti
         self.Td = Td

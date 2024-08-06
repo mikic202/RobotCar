@@ -10,14 +10,23 @@ import json
 
 
 def convert_sensor_data_to_dict(data):
-    return [{"angle": reading[1], "value": reading[0]}for reading in data]
+    return [{"angle": reading[1], "value": reading[0]} for reading in data]
+
 
 def convert_motor_data_to_dict(data):
     return [{"control_name": motor, "value": value} for motor, value in enumerate(data)]
 
 
 class Robot(ABC):
-    def __init__(self, motors_drive: MotorDrive, sensor_array: SensorArray, sensor_logger: Logger, motor_logger: Logger, regulator: Regulator, controll_loop_timer: Timer):
+    def __init__(
+        self,
+        motors_drive: MotorDrive,
+        sensor_array: SensorArray,
+        sensor_logger: Logger,
+        motor_logger: Logger,
+        regulator: Regulator,
+        controll_loop_timer: Timer,
+    ):
         self._motor_drive = motors_drive
         self._sensor_array = sensor_array
         self._sensor_logger = sensor_logger
@@ -26,10 +35,16 @@ class Robot(ABC):
         self._controll_loop_timer = controll_loop_timer
 
     def log_sensor_data(self):
-        self._sensor_logger.log(json.dumps(convert_sensor_data_to_dict(self._sensor_array.get_latest_data())))
+        self._sensor_logger.log(
+            json.dumps(
+                convert_sensor_data_to_dict(self._sensor_array.get_latest_data())
+            )
+        )
 
     def log_motor_data(self):
-        self._motor_logger.log(json.dumps(convert_motor_data_to_dict(self._motor_drive.get_pwms())))
+        self._motor_logger.log(
+            json.dumps(convert_motor_data_to_dict(self._motor_drive.get_pwms()))
+        )
 
     def _start_loggers(self):
         try:
