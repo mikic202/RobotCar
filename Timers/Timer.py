@@ -13,3 +13,10 @@ class Timer:
             self.__last_update = current_time
             return True
         return False
+
+    def reset(self):
+        self.__last_update = time()
+
+    def set_time_period(self, time_period: float):
+        self._tim_period = time_period
+        self.reset()
