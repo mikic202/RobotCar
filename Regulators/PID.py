@@ -8,9 +8,7 @@ class PID:
         self.Ti = Ti
         self.Td = Td
         self.Tp = Tp
-        self._r_0 = K * (1 + Tp / (2 * Ti) + Td / Tp)
-        self._r_1 = K * (Tp / (2 * Ti) - 2 * Td / Tp - 1)
-        self._r_2 = K * Td / Tp
+        self._calculate_r_values()
         self._e = [np.zeros(number_of_inputs) for _ in range(4)]
         self._stp = np.array(setpoints)
         self._u = 0
@@ -24,3 +22,27 @@ class PID:
             + self._u
         )
         return self._u
+
+    def set_Tp(self, Tp: float):
+        self.Tp = Tp
+        self._calculate_r_values()
+
+    def set_K(self, K: float):
+        self.K = K
+        self._calculate_r_values()
+
+    def set_Ti(self, Ti: float):
+        self.Ti = Ti
+        self._calculate_r_values()
+
+    def set_Td(self, Td: float):
+        self.Td = Td
+        self._calculate_r_values()
+
+    def set_setpoints(self, setpoints: List[float]):
+        self._stp = np.array(setpoints)
+
+    def _calculate_r_values(self):
+        self._r_0 = self.K * (1 + self.Tp / (2 * self.Ti) + self.Td / self.Tp)
+        self._r_1 = self.K * (self.Tp / (2 * self.Ti) - 2 * self.Td / self.Tp - 1)
+        self._r_2 = self.K * self.Td / self.Tp
