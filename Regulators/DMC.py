@@ -1,5 +1,6 @@
 from Regulators.Regulator import Regulator
 
+
 class DMC(Regulator):
     def __init__(self, D, N, Nu, lambda_, step_response):
         self._D = D
