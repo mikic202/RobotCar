@@ -6,6 +6,7 @@ from Robot.DifferentialRobot import DifferentialRobot
 from HardwareClasses.Motor import Motor
 from Regulators.RemoteRegulator import RemoteRegulator
 from Regulators.PID import PID
+from Timers.Timer import Timer
 import time
 
 
@@ -23,7 +24,7 @@ if __name__ == "__main__":
         print("Loggers established")
         regulator = PID(6, 10, 5, 0.5, 1, [150])
         robot = DifferentialRobot(
-            motor_drive, array, sensor_logger, controll_logger, regulator
+            motor_drive, array, sensor_logger, controll_logger, regulator, Timer(0.5)
         )
         robot()
     finally:
