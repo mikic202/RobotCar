@@ -1,3 +1,6 @@
+CONFIG = Makefile.conf
+include ${CONFIG}
+
 default: run
 
 black:
@@ -7,4 +10,4 @@ mypy:
 	@mypy .
 
 run:
-	@python3 -m main
+	@python3 -m main --Tp $(TIMER_PERIOD)  --logger $(LOGGER) --robot $(ROBOT) --regulator $(REGULATOR)
