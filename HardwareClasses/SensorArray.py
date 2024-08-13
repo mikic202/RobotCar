@@ -2,6 +2,7 @@ from HardwareClasses.DistanceSensor import DistanceSensor
 from gpiozero import DigitalOutputDevice
 from typing import List
 import board
+from multiprocessing import Manager
 
 DEFAULT_ADDRESS = 0x29
 
@@ -11,7 +12,7 @@ class SensorArray:
         self._sensors_list = []
         self._i2c = board.I2C()
         self._init_sensors(sensor_pins_list)
-        self._latest_data = []
+        self._latest_data = Manager().list()
 
     def _init_sensors(self, sensor_pins_list: List[int]):
         for adress, (pin, angle) in enumerate(sensor_pins_list):
@@ -20,7 +21,8 @@ class SensorArray:
             self._sensors_list.append(sensor)
 
     def __call__(self):
-        self._latest_data = [(sensor(), sensor._angle) for sensor in self._sensors_list]
+        self._latest_data[:] = []
+        [self._latest_data.append((sensor(), sensor._angle)) for sensor in self._sensors_list]
         return self._latest_data
 
     def get_latest_data(self):

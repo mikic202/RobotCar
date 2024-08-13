@@ -5,7 +5,7 @@ from Loggers.Logger import Logger
 from Regulators.Regulator import Regulator
 from Timers.Timer import Timer
 from time import sleep
-from threading import Thread
+from multiprocessing import Process
 import json
 
 
@@ -67,7 +67,7 @@ class Robot(ABC):
             self._sensor_array.reset_addresses()
 
     def __call__(self):
-        Thread(target=self._start_loggers).start()
+        Process(target=self._start_loggers).start()
         self._run()
 
     @abstractmethod
