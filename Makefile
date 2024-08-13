@@ -10,4 +10,4 @@ mypy:
 	@mypy .
 
 run:
-	@python3 -m main --Tp $(TIMER_PERIOD)  --logger $(LOGGER) --robot $(ROBOT) --regulator $(REGULATOR)
+	@python3 -m main --Tp $(TIMER_PERIOD)  --logger $(LOGGER) --robot $(ROBOT) --regulator $(REGULATOR) --reg_args $(REG_ARGS)
