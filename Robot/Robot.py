@@ -10,10 +10,12 @@ import json
 
 
 def convert_sensor_data_to_dict(data):
+    print(data)
     return [{"angle": reading[1], "value": reading[0]} for reading in data]
 
 
 def convert_motor_data_to_dict(data):
+    print(data)
     return [{"control_name": motor, "value": value} for motor, value in enumerate(data)]
 
 
@@ -34,24 +36,28 @@ class Robot(ABC):
         self._regulator = regulator
         self._controll_loop_timer = controll_loop_timer
 
-    def log_sensor_data(self):
-        self._sensor_logger.log(
-            json.dumps(
-                convert_sensor_data_to_dict(self._sensor_array.get_latest_data())
+    def log_sensor_data(self, iteration: int):
+        for reading in convert_sensor_data_to_dict(self._sensor_array.get_latest_data()):
+            reading["iteration"] = iteration
+            self._sensor_logger.log(
+                reading
             )
-        )
 
-    def log_motor_data(self):
-        self._motor_logger.log(
-            json.dumps(convert_motor_data_to_dict(self._motor_drive.get_pwms()))
-        )
+    def log_motor_data(self, iteration: int):
+        for reading in convert_motor_data_to_dict(self._motor_drive.get_pwms()):
+            reading["iteration"] = iteration
+            self._motor_logger.log(
+                reading
+            )
 
     def _start_loggers(self):
+        logger_iteration = 0
         try:
             while True:
-                self.log_sensor_data()
-                self.log_motor_data()
+                self.log_sensor_data(logger_iteration)
+                self.log_motor_data(logger_iteration)
                 sleep(0.5)
+                logger_iteration += 1
         finally:
             self._sensor_logger.close()
             self._motor_logger.close()
