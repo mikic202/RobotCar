@@ -1,6 +1,7 @@
 import argparse
 from Loggers.RemoteLogger import RemoteLogger
 from Loggers.LocalLogger import LocalLogger
+from Loggers.CsvLogger import CsvLogger
 from Loggers.Logger import Logger
 from Timers.Timer import Timer
 from Regulators.Regulator import Regulator
@@ -13,7 +14,7 @@ from HardwareClasses.Motor import Motor
 
 parser = argparse.ArgumentParser(description='Parse robot arguments')
 
-parser.add_argument('--logger', choices=['l', 'r'], help="Type of logger used by robot", default='l')
+parser.add_argument('--logger', choices=['l', 'r', 'c'], help="Type of logger used by robot", default='l')
 parser.add_argument('--Tp', type=float, help="Timer period for regulation loop", default=0.5)
 parser.add_argument('--robot', choices=['diff', 'sing'], help="Type of robot used", default='diff')
 parser.add_argument('--regulator', choices=['PID', 'human', 'DMC', 'NN'], help="Type of regulator used by robot", default='PID')
@@ -28,6 +29,9 @@ def init_robot_from_args(args: argparse.Namespace) -> Robot:
     if args.logger == 'r':
         sensor_logger = RemoteLogger()
         control_logger = RemoteLogger()
+    elif args.logger == 'c':
+        sensor_logger = CsvLogger("sensor.csv")
+        control_logger = CsvLogger("control.csv")
     else:
         sensor_logger = LocalLogger("sensor.log")
         control_logger = LocalLogger("control.log")
