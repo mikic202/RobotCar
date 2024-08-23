@@ -8,6 +8,7 @@ from Regulators.Regulator import Regulator
 from Regulators.RemoteRegulator import RemoteRegulator
 from Regulators.DMC import DMC
 from Robot.DifferentialRobot import DifferentialRobot
+from Robot.HumanControlledRobot import HumanControlledRobot
 from Robot.Robot import Robot
 from Regulators.PID import PID
 from HardwareClasses.SensorArray import SensorArray
@@ -18,7 +19,7 @@ parser = argparse.ArgumentParser(description='Parse robot arguments')
 
 parser.add_argument('--logger', choices=['l', 'r', 'c'], help="Type of logger used by robot", default='l')
 parser.add_argument('--Tp', type=float, help="Timer period for regulation loop", default=0.5)
-parser.add_argument('--robot', choices=['diff', 'sing'], help="Type of robot used", default='diff')
+parser.add_argument('--robot', choices=['diff', 'sing', 'human'], help="Type of robot used", default='diff')
 parser.add_argument('--regulator', choices=['PID', 'human', 'DMC', 'NN'], help="Type of regulator used by robot", default='PID')
 parser.add_argument('--reg_args', metavar='N', type=float, nargs='*', help='Arguments for regulator')
 
@@ -52,4 +53,6 @@ def init_robot_from_args(args: argparse.Namespace) -> Robot:
 
     if args.robot == 'diff':
         return DifferentialRobot(motor_drive, array, sensor_logger, control_logger, regulator, timer)
+    elif args.robot == 'human':
+        return HumanControlledRobot(motor_drive, array, sensor_logger, control_logger, regulator, timer)
 
