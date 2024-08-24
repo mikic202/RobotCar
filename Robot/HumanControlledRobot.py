@@ -25,7 +25,8 @@ class HumanControlledRobot(Robot):
         )
 
     def _read_sensor_data(self):
-        self._sensor_array()
+        with self._lock:
+            self._sensor_array()
 
     def _apply_new_controls(self):
         Process(target = self._read_sensor_data).start()

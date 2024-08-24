@@ -1,6 +1,6 @@
 from Loggers.Logger import Logger
 import csv
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 class CsvLogger(Logger):
     def __init__(self, filename):
@@ -8,8 +8,8 @@ class CsvLogger(Logger):
         self.file = open(filename, 'w')
         self.writer = csv.writer(self.file)
 
-    def log(self, log_values: Dict[str, Any]):
-        self.writer.writerow([value for value in log_values.values()])
+    def log(self, log_values: List[Dict[str, Any]], sample_index: int):
+        self.writer.writerows([[*[value for value in reading.values()], sample_index ]for reading in log_values])
 
     def close(self):
         self.file.close()

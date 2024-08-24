@@ -26,7 +26,10 @@ class DifferentialRobot(Robot):
 
     def _apply_new_controls(self):
         constant_value = 0.4
-        controll = self._regulator.get_controll([self._sensor_array()[0][0]])/1000 - 0.5
+        # lock causes some instabilities in how often the controll is aplyied
+        with self._lock:
+            array_values = self._sensor_array()
+        controll = self._regulator.get_controll([array_values[0][0]])/1000 - 0.5
         print(f"controll: {[constant_value + controll, constant_value - controll]}")
         self._motor_drive.set_pwms(
             [constant_value + controll, constant_value - controll]
