@@ -10,12 +10,18 @@ class NeuralNetworkRegulator(Regulator):
             def __init__(self):
                 super(RobotNet, self).__init__()
                 self.fc1 = nn.Linear(1, 4)
-                self.fc2 = nn.Linear(4, 4)
-                self.fc3 = nn.Linear(4, 2)
+                self.act1 = nn.LeakyReLU()
+                self.dropout1 = nn.Dropout(0.001)
+                self.act2 = nn.LeakyReLU()
+                self.fc2 = nn.Linear(4, 16)
+                self.dropout2 = nn.Dropout(0.001)
+                self.fc3 = nn.Linear(16, 2)
 
             def forward(self, x):
-                x = torch.relu(self.fc1(x))
-                x = torch.relu(self.fc2(x))
+                x = self.act1(self.fc1(x))
+                # x = self.dropout1(x)
+                x = self.act1(self.fc2(x))
+                # x = self.dropout2(x)
                 x = self.fc3(x)
                 return x
         self._model_file = model_file
