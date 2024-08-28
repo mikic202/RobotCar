@@ -10,12 +10,10 @@ import json
 
 
 def convert_sensor_data_to_dict(data):
-    print(data)
     return [{"angle": reading[1], "value": reading[0]} for reading in data]
 
 
 def convert_motor_data_to_dict(data):
-    print(data)
     return [{"control_name": motor, "value": value} for motor, value in enumerate(data)]
 
 
