@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 
 class Logger(ABC):
@@ -11,7 +11,7 @@ class Logger(ABC):
         pass
 
     @abstractmethod
-    def log(self, data: Dict[str, Any]):
+    def log(self, data: List[Dict[str, Any]], sample_index: int):
         pass
 
     @abstractmethod

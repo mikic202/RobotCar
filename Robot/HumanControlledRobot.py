@@ -1,11 +1,11 @@
+from multiprocessing import Process
 from HardwareClasses.MotorDrive import MotorDrive
 from HardwareClasses.SensorArray import SensorArray
 from Loggers.Logger import Logger
 from Regulators.Regulator import Regulator
 from Robot.Robot import Robot
 
-
-class DifferentialRobot(Robot):
+class HumanControlledRobot(Robot):
     def __init__(
         self,
         motors_drive: MotorDrive,
@@ -24,13 +24,10 @@ class DifferentialRobot(Robot):
             controll_loop_timer,
         )
 
-    def _apply_new_controls(self):
-        constant_value = 0.5
-        # lock causes some instabilities in how often the controll is aplyied
+    def _read_sensor_data(self):
         with self._lock:
-            array_values = self._sensor_array()
-        dist_diff = array_values[0][0] - array_values[-1][0]
-        controll = self._regulator.get_controll([dist_diff/1000])
-        self._motor_drive.set_pwms(
-            [constant_value + controll, constant_value - controll]
-        )
+            self._sensor_array()
+
+    def _apply_new_controls(self):
+        Process(target = self._read_sensor_data).start()
+        self._motor_drive.set_pwms(self._regulator.get_controll([]))

@@ -5,7 +5,7 @@ from Regulators.Regulator import Regulator
 from Robot.Robot import Robot
 
 
-class DifferentialRobot(Robot):
+class NNRobot(Robot):
     def __init__(
         self,
         motors_drive: MotorDrive,
@@ -25,12 +25,9 @@ class DifferentialRobot(Robot):
         )
 
     def _apply_new_controls(self):
-        constant_value = 0.5
-        # lock causes some instabilities in how often the controll is aplyied
         with self._lock:
             array_values = self._sensor_array()
-        dist_diff = array_values[0][0] - array_values[-1][0]
-        controll = self._regulator.get_controll([dist_diff/1000])
+        controll = self._regulator.get_controll([array_values[0][0]])
         self._motor_drive.set_pwms(
-            [constant_value + controll, constant_value - controll]
+            controll[0]
         )

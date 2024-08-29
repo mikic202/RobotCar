@@ -12,9 +12,9 @@ class RemoteRegulator:
         self._server_socket.listen(1)
         self._client_socket, _ = self._server_socket.accept()
         self._client_reader = self._client_socket.makefile("r")
-        self._client_reader.readline()
 
     def get_controll(self, input: List[float]) -> List[float]:
+        self._client_socket.sendall(";".encode())
         request = self._client_reader.readline()  # convert bytes to string
         values = str(request).strip().split(";")
         return [float(val) / 100 for val in values]

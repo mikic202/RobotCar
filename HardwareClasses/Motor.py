@@ -3,7 +3,7 @@ from gpiozero import PWMOutputDevice, DigitalOutputDevice
 
 class Motor:
     def __init__(
-        self, logic_input_1: int, logic_input_2: int, max_pwm: float = 0.9
+        self, logic_input_1: int, logic_input_2: int, max_pwm: float = 0.7
     ) -> None:
         self.logic_input_1 = logic_input_1
         self.logic_input_2 = logic_input_2
@@ -30,7 +30,7 @@ class Motor:
             self._pwm_output.value = min(abs(pwm_value), self.max_pwm)
         else:
             self._enable_pin.on()
-            self._pwm_output.value = min(1 - abs(pwm_value), self.max_pwm)
+            self._pwm_output.value = 1 - min(abs(pwm_value), self.max_pwm)
 
     def get_pwm(self):
         return self._current_pwm
