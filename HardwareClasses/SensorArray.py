@@ -16,6 +16,7 @@ class SensorArray:
 
     def _init_sensors(self, sensor_pins_list: List[int]):
         for adress, (pin, angle) in enumerate(sensor_pins_list):
+            print(f"Creating sensor with pin {pin} and angle {angle}")
             sensor = DistanceSensor(self._i2c, DigitalOutputDevice(pin), angle)
             sensor.set_address(DEFAULT_ADDRESS + 1 + adress)
             self._sensors_list.append(sensor)
