@@ -34,18 +34,18 @@ def init_robot_from_args(args: argparse.Namespace) -> Robot:
         sensor_logger = RemoteLogger()
         control_logger = RemoteLogger()
     elif args.logger == 'c':
-        sensor_logger = CsvLogger("sensor.csv")
-        control_logger = CsvLogger("control.csv")
+        sensor_logger = CsvLogger("log/sensor.csv")
+        control_logger = CsvLogger("log/control.csv")
     else:
-        sensor_logger = LocalLogger("sensor.log")
-        control_logger = LocalLogger("control.log")
+        sensor_logger = LocalLogger("log/sensor.log")
+        control_logger = LocalLogger("log/control.log")
 
     timer = Timer(args.Tp)
 
     regulator: Regulator
 
     if args.regulator == 'PID':
-        regulator = PID(*args.reg_args, args.Tp, 1, [150])
+        regulator = PID(*args.reg_args, args.Tp, 1, [0])
     elif args.regulator == 'human':
         regulator = RemoteRegulator()
     elif args.regulator == 'DMC':
