@@ -39,9 +39,6 @@ def init_robot_from_args(args: argparse.Namespace) -> Robot:
     else:
         sensor_logger = LocalLogger("log/sensor.log")
         control_logger = LocalLogger("log/control.log")
-
-    timer = Timer(args.Tp)
-
     regulator: Regulator
 
     if args.regulator == 'PID':
@@ -53,6 +50,7 @@ def init_robot_from_args(args: argparse.Namespace) -> Robot:
     elif args.regulator == 'NN':
         regulator = NeuralNetworkRegulator('Regulators/model.pth')
 
+    timer = Timer(args.Tp)
     motor_drive = MotorDrive([Motor(14, 15), Motor(23, 24)])
     array = SensorArray([(5, -90), (25, -45), (12, 0), (1, 45), (21, 90)])
 
