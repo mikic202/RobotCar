@@ -52,7 +52,7 @@ def init_robot_from_args(args: argparse.Namespace) -> Robot:
 
     timer = Timer(args.Tp)
     motor_drive = MotorDrive([Motor(14, 15), Motor(23, 24)])
-    array = SensorArray([(5, -90), (25, -45), (12, 0), (1, 45), (21, 90)])
+    array = SensorArray([(5, -90), (25, -45), (12, 0), (1, 45), (21, 90), (20, 180)])
 
     if args.robot == 'diff':
         return DifferentialRobot(motor_drive, array, sensor_logger, control_logger, regulator, timer)
