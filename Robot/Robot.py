@@ -6,7 +6,7 @@ from Regulators.Regulator import Regulator
 from Timers.Timer import Timer
 from time import sleep
 from multiprocessing import Process, Lock
-import json
+import copy
 
 
 def convert_sensor_data_to_dict(data):
@@ -33,6 +33,7 @@ class Robot(ABC):
         self._motor_logger = motor_logger
         self._regulator = regulator
         self._controll_loop_timer = controll_loop_timer
+        self._log_loop_timer = copy.deepcopy(controll_loop_timer)
         self._lock = Lock()
 
     def log_sensor_data(self, iteration: int):
@@ -51,12 +52,13 @@ class Robot(ABC):
 
     def _start_loggers(self):
         logger_iteration = 0
+        sleep(0.1)
         try:
             while True:
-                self.log_sensor_data(logger_iteration)
-                self.log_motor_data(logger_iteration)
-                sleep(0.4)
-                logger_iteration += 1
+                if self._log_loop_timer():
+                    self.log_sensor_data(logger_iteration)
+                    self.log_motor_data(logger_iteration)
+                    logger_iteration += 1
         finally:
             self._sensor_logger.close()
             self._motor_logger.close()
