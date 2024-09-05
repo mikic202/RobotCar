@@ -27,7 +27,10 @@ class SensorArray:
 
     def __call__(self):
         self._latest_data[:] = []
-        [self._latest_data.append((sensor(), sensor._angle)) for sensor in self._sensors_list]
+        [
+            self._latest_data.append((sensor(), sensor._angle))
+            for sensor in self._sensors_list
+        ]
         return self._latest_data
 
     def get_latest_data(self):

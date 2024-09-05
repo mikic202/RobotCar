@@ -4,7 +4,6 @@ import torch.nn as nn
 
 
 class NeuralNetworkRegulator(Regulator):
-
     def __init__(self, model_file: str):
         class RobotNet(nn.Module):
             def __init__(self):
@@ -24,9 +23,10 @@ class NeuralNetworkRegulator(Regulator):
                 # x = self.dropout2(x)
                 x = self.fc3(x)
                 return x
+
         self._model_file = model_file
         self.__model = RobotNet()
-        device = torch.device('cpu')
+        device = torch.device("cpu")
         self.__model.load_state_dict(torch.load(self._model_file, map_location=device))
 
     def get_controll(self, sensor_data):

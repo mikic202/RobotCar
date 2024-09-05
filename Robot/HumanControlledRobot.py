@@ -5,6 +5,7 @@ from Loggers.Logger import Logger
 from Regulators.Regulator import Regulator
 from Robot.Robot import Robot
 
+
 class HumanControlledRobot(Robot):
     def __init__(
         self,
@@ -29,5 +30,5 @@ class HumanControlledRobot(Robot):
             self._sensor_array()
 
     def _apply_new_controls(self):
-        Process(target = self._read_sensor_data).start()
+        Process(target=self._read_sensor_data).start()
         self._motor_drive.set_pwms(self._regulator.get_controll([]))

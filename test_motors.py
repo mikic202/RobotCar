@@ -7,8 +7,8 @@ if __name__ == "__main__":
     for pwm in range(10):
         sleep(0.5)
         print(f"Setting left pwm to {pwm/10}")
-        motor_drive.set_pwms([0, -pwm/10])
+        motor_drive.set_pwms([0, -pwm / 10])
     for pwm in range(10):
         sleep(0.5)
         print(f"Setting right pwm to {pwm/10}")
-        motor_drive.set_pwms([-pwm/10, 0])
+        motor_drive.set_pwms([-pwm / 10, 0])
