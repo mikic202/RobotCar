@@ -27,7 +27,7 @@ class NNRobot(Robot):
     def _apply_new_controls(self):
         with self._lock:
             array_values = self._sensor_array()
-        controll = self._regulator.get_controll([array_values[0][0]])
+        controll = self._regulator.get_controll([array_values[0][0], array_values[-1][0]])
         self._motor_drive.set_pwms(
             controll[0]
         )

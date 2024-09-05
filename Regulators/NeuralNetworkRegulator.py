@@ -9,13 +9,13 @@ class NeuralNetworkRegulator(Regulator):
         class RobotNet(nn.Module):
             def __init__(self):
                 super(RobotNet, self).__init__()
-                self.fc1 = nn.Linear(1, 4)
+                self.fc1 = nn.Linear(2, 16)
                 self.act1 = nn.LeakyReLU()
                 self.dropout1 = nn.Dropout(0.001)
                 self.act2 = nn.LeakyReLU()
-                self.fc2 = nn.Linear(4, 16)
+                self.fc2 = nn.Linear(16, 32)
                 self.dropout2 = nn.Dropout(0.001)
-                self.fc3 = nn.Linear(16, 2)
+                self.fc3 = nn.Linear(32, 2)
 
             def forward(self, x):
                 x = self.act1(self.fc1(x))
