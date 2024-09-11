@@ -41,7 +41,7 @@ parser.add_argument(
     default="PID",
 )
 parser.add_argument(
-    "--reg_args", metavar="N", type=float, nargs="*", help="Arguments for regulator"
+    "--reg_args", metavar="N", type=str, nargs="*", help="Arguments for regulator"
 )
 
 
@@ -60,13 +60,13 @@ def init_robot_from_args(args: argparse.Namespace) -> Robot:
     regulator: Regulator
 
     if args.regulator == "PID":
-        regulator = PID(*args.reg_args, args.Tp, 1, [0])
+        regulator = PID(*[float(arg) for arg in args.reg_args], args.Tp, 1, [0])
     elif args.regulator == "human":
         regulator = RemoteRegulator()
     elif args.regulator == "DMC":
-        regulator = DMC(*args.reg_args, args.Tp, 1)
+        regulator = DMC(*[float(arg) for arg in args.reg_args], args.Tp, 1)
     elif args.regulator == "NN":
-        regulator = NeuralNetworkRegulator("Regulators/model.pth")
+        regulator = NeuralNetworkRegulator(f"Regulators/{args.reg_args[0]}")
 
     timer = Timer(args.Tp)
     motor_drive = MotorDrive([Motor(14, 15), Motor(23, 24)])
