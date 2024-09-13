@@ -3,7 +3,7 @@ from gpiozero import PWMOutputDevice, DigitalOutputDevice
 
 class Motor:
     def __init__(
-        self, logic_input_1: int, logic_input_2: int, max_pwm: float = 0.7
+        self, logic_input_1: int, logic_input_2: int, max_pwm: float = 0.9
     ) -> None:
         self.logic_input_1 = logic_input_1
         self.logic_input_2 = logic_input_2
@@ -23,7 +23,7 @@ class Motor:
 
     def set_pwm(self, pwm_value: float):
         self._current_pwm = pwm_value
-        if abs(pwm_value) < 0.4:
+        if abs(pwm_value) < 0.3:
             self.reset()
         elif pwm_value > 0:
             self._enable_pin.off()
