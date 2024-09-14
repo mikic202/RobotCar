@@ -10,7 +10,8 @@ mypy:
 	@mypy .
 
 run:
-	@python3 -m main --Tp $(TIMER_PERIOD)  --logger $(LOGGER) --robot $(ROBOT) --regulator $(REGULATOR) --reg_args $(REG_ARGS)
+	@mkdir -p log/$(TEST_NAME)
+	@python3 -m main --Tp $(TIMER_PERIOD)  --logger $(LOGGER) --robot $(ROBOT) --regulator $(REGULATOR) --reg_args $(REG_ARGS) --log_location log/$(TEST_NAME)
 
 test_sensors:
 	@python3 -m test_sensors

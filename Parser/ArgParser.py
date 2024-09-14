@@ -45,6 +45,10 @@ parser.add_argument(
     "--reg_args", metavar="N", type=str, nargs="*", help="Arguments for regulator"
 )
 
+parser.add_argument(
+    "--log_location", type=str, help="Location where data will be logged", default="log"
+)
+
 
 def init_robot_from_args(args: argparse.Namespace) -> Robot:
     sensor_logger: Logger
@@ -53,11 +57,11 @@ def init_robot_from_args(args: argparse.Namespace) -> Robot:
         sensor_logger = RemoteLogger()
         control_logger = RemoteLogger()
     elif args.logger == "c":
-        sensor_logger = CsvLogger("log/sensor.csv")
-        control_logger = CsvLogger("log/control.csv")
+        sensor_logger = CsvLogger(f"{args.log_location}/sensor.csv")
+        control_logger = CsvLogger(f"{args.log_location}/control.csv")
     else:
-        sensor_logger = LocalLogger("log/sensor.log")
-        control_logger = LocalLogger("log/control.log")
+        sensor_logger = LocalLogger(f"{args.log_location}/sensor.log")
+        control_logger = LocalLogger(f"{args.log_location}/control.log")
     regulator: Regulator
 
     # if args.regulator == "PID":
