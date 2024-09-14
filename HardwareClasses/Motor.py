@@ -22,15 +22,16 @@ class Motor:
         self._pwm_output.on()
 
     def set_pwm(self, pwm_value: float):
+        pwm_value = max(-self.max_pwm, min(self.max_pwm, pwm_value))
         self._current_pwm = pwm_value
         if abs(pwm_value) < 0.3:
             self.reset()
         elif pwm_value > 0:
             self._enable_pin.off()
-            self._pwm_output.value = min(abs(pwm_value), self.max_pwm)
+            self._pwm_output.value = abs(pwm_value)
         else:
             self._enable_pin.on()
-            self._pwm_output.value = 1 - min(abs(pwm_value), self.max_pwm)
+            self._pwm_output.value = 1 - abs(pwm_value)
 
     def get_pwm(self):
         return self._current_pwm
