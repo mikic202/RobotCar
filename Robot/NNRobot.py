@@ -28,6 +28,6 @@ class NNRobot(Robot):
         with self._lock:
             array_values = self._sensor_array()
         controll = self._regulator.get_controll(
-            [array_values[0][0], array_values[-1][0]]
+            [array_values[0][0], array_values[1][0], array_values[2][0], array_values[3][0], array_values[4][0]]
         )
         self._motor_drive.set_pwms(controll[0])
