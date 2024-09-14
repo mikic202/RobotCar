@@ -10,6 +10,7 @@ from Regulators.DMC import DMC
 from Robot.DifferentialRobot import DifferentialRobot
 from Robot.HumanControlledRobot import HumanControlledRobot
 from Robot.NNRobot import NNRobot
+from Robot.TwoRegRobot import TwoRegRobot
 from Robot.Robot import Robot
 from Regulators.PID import PID
 from Regulators.NeuralNetworkRegulator import NeuralNetworkRegulator
@@ -30,7 +31,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--robot",
-    choices=["diff", "sing", "human", "NN"],
+    choices=["diff", "human", "NN", "two_reg"],
     help="Type of robot used",
     default="diff",
 )
@@ -83,4 +84,8 @@ def init_robot_from_args(args: argparse.Namespace) -> Robot:
     elif args.robot == "NN":
         return NNRobot(
             motor_drive, array, sensor_logger, control_logger, regulator, timer
+        )
+    elif args.robot == "two_reg":
+        return TwoRegRobot(
+            motor_drive, array, sensor_logger, control_logger, PID(*[float(arg) for arg in args.reg_args], args.Tp, 2, [100, 100]), timer
         )
