@@ -60,14 +60,14 @@ def init_robot_from_args(args: argparse.Namespace) -> Robot:
         control_logger = LocalLogger("log/control.log")
     regulator: Regulator
 
-    if args.regulator == "PID":
-        regulator = PID(*[float(arg) for arg in args.reg_args], args.Tp, 1, [0])
-    elif args.regulator == "human":
-        regulator = RemoteRegulator()
-    elif args.regulator == "DMC":
-        regulator = DMC(*[float(arg) for arg in args.reg_args], args.Tp, 1)
-    elif args.regulator == "NN":
-        regulator = NeuralNetworkRegulator(f"Regulators/{args.reg_args[0]}")
+    # if args.regulator == "PID":
+    #     regulator = PID(*[float(arg) for arg in args.reg_args], args.Tp, 1, [0])
+    # elif args.regulator == "human":
+    #     regulator = RemoteRegulator()
+    # elif args.regulator == "DMC":
+    #     regulator = DMC(*[float(arg) for arg in args.reg_args], args.Tp, 1)
+    # elif args.regulator == "NN":
+    #     regulator = NeuralNetworkRegulator(f"Regulators/{args.reg_args[0]}")
 
     timer = Timer(args.Tp)
     motor_drive = MotorDrive([Motor(14, 15), Motor(23, 24)])
@@ -75,17 +75,32 @@ def init_robot_from_args(args: argparse.Namespace) -> Robot:
 
     if args.robot == "diff":
         return DifferentialRobot(
-            motor_drive, array, sensor_logger, control_logger, regulator, timer
+            motor_drive,
+            array,
+            sensor_logger,
+            control_logger,
+            PID(*[float(arg) for arg in args.reg_args], args.Tp, 1, [0]),
+            timer,
         )
     elif args.robot == "human":
         return HumanControlledRobot(
-            motor_drive, array, sensor_logger, control_logger, regulator, timer
+            motor_drive, array, sensor_logger, control_logger, RemoteRegulator(), timer
         )
     elif args.robot == "NN":
         return NNRobot(
-            motor_drive, array, sensor_logger, control_logger, regulator, timer
+            motor_drive,
+            array,
+            sensor_logger,
+            control_logger,
+            NeuralNetworkRegulator(f"Regulators/{args.reg_args[0]}"),
+            timer,
         )
     elif args.robot == "two_reg":
         return TwoRegRobot(
-            motor_drive, array, sensor_logger, control_logger, PID(*[float(arg) for arg in args.reg_args], args.Tp, 2, [100, 100]), timer
+            motor_drive,
+            array,
+            sensor_logger,
+            control_logger,
+            PID(*[float(arg) for arg in args.reg_args], args.Tp, 2, [100, 100]),
+            timer,
         )
