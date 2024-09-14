@@ -29,7 +29,5 @@ class TwoRegRobot(Robot):
         with self._lock:
             array_values = self._sensor_array()
         dist_diff = array_values[0][0] - array_values[-1][0]
-        input_variables = [array_values[0][0]/1000, array_values[-1][0]/1000]
-        self._motor_drive.set_pwms(
-            self._regulator.get_controll(input_variables)
-        )
+        input_variables = [array_values[0][0] / 1000, array_values[-1][0] / 1000]
+        self._motor_drive.set_pwms(self._regulator.get_controll(input_variables))
