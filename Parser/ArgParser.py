@@ -10,7 +10,7 @@ from Regulators.DMC import DMC
 from Robot.DifferentialRobot import DifferentialRobot
 from Robot.HumanControlledRobot import HumanControlledRobot
 from Robot.NNRobot import NNRobot
-from Robot.TwoRegRobot import TwoRegRobot
+from Robot.ReversedTwoRegRobot import ReversedTwoRegRobot
 from Robot.Robot import Robot
 from Regulators.PID import PID
 from Regulators.NeuralNetworkRegulator import NeuralNetworkRegulator
@@ -100,11 +100,11 @@ def init_robot_from_args(args: argparse.Namespace) -> Robot:
             timer,
         )
     elif args.robot == "two_reg":
-        return TwoRegRobot(
+        return ReversedTwoRegRobot(
             motor_drive,
             array,
             sensor_logger,
             control_logger,
-            PID(*[float(arg) for arg in args.reg_args], args.Tp, 2, [100, 100]),
+            PID(*[float(arg) for arg in args.reg_args], args.Tp, 2, [0, 0]),
             timer,
         )

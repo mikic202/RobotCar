@@ -5,7 +5,7 @@ from Regulators.Regulator import Regulator
 from Robot.Robot import Robot
 
 
-class TwoRegRobot(Robot):
+class ReversedTwoRegRobot(Robot):
     def __init__(
         self,
         motors_drive: MotorDrive,
@@ -30,4 +30,5 @@ class TwoRegRobot(Robot):
             array_values = self._sensor_array()
         dist_diff = array_values[0][0] - array_values[-1][0]
         input_variables = [array_values[0][0] / 1000, array_values[-1][0] / 1000]
-        self._motor_drive.set_pwms(self._regulator.get_controll(input_variables))
+        controll = [value + 0.4 for value in self._regulator.get_controll(input_variables)]
+        self._motor_drive.set_pwms(controll)
