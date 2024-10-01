@@ -14,12 +14,12 @@ class NeuralNetworkRegulator(Regulator):
                 self.fc1 = nn.Linear(NUMBER_OF_INPUTS, 128)
                 self.act1 = nn.GELU()
                 self.act2 = nn.GELU()
-                self.act3 = nn.GELU()
+                self.act3 = nn.LeakyReLU()
                 self.act4 = nn.GELU()
-                self.fc2 = nn.Linear(128, 256)
-                self.fc3 = nn.Linear(256, 1024)
-                self.fc4 = nn.Linear(1024, 256)
-                self.fc5 = nn.Linear(256, NUMBER_OF_OUTPUTS)
+                self.fc2 = nn.Linear(128, 512)
+                self.fc3 = nn.Linear(512, 1024)
+                self.fc4 = nn.Linear(1024, 1024)
+                self.fc5 = nn.Linear(1024, NUMBER_OF_OUTPUTS)
 
             def forward(self, x):
                 x = self.act1(self.fc1(x))
