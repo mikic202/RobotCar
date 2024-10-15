@@ -18,3 +18,6 @@ test_sensors:
 
 test_motors:
 	@python3 -m test_motors
+
+postprocess_logs:
+	@python3 -m Parser.LogsPostprocessor

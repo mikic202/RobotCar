@@ -18,39 +18,44 @@ from HardwareClasses.SensorArray import SensorArray
 from HardwareClasses.MotorDrive import MotorDrive
 from HardwareClasses.Motor import Motor
 
-parser = argparse.ArgumentParser(description="Parse robot arguments")
+def parse_args():
+    parser = argparse.ArgumentParser(description="Parse robot arguments")
 
-parser.add_argument(
-    "--logger",
-    choices=["l", "r", "c"],
-    help="Type of logger used by robot",
-    default="l",
-)
-parser.add_argument(
-    "--Tp", type=float, help="Timer period for regulation loop", default=0.5
-)
-parser.add_argument(
-    "--robot",
-    choices=["diff", "human", "NN", "two_reg"],
-    help="Type of robot used",
-    default="diff",
-)
-parser.add_argument(
-    "--regulator",
-    choices=["PID", "human", "DMC", "NN"],
-    help="Type of regulator used by robot",
-    default="PID",
-)
-parser.add_argument(
-    "--reg_args", metavar="N", type=str, nargs="*", help="Arguments for regulator"
-)
+    parser.add_argument(
+        "--logger",
+        choices=["l", "r", "c"],
+        help="Type of logger used by robot",
+        default="l",
+    )
+    parser.add_argument(
+        "--Tp", type=float, help="Timer period for regulation loop", default=0.5
+    )
+    parser.add_argument(
+        "--robot",
+        choices=["diff", "human", "NN", "two_reg"],
+        help="Type of robot used",
+        default="diff",
+    )
+    parser.add_argument(
+        "--regulator",
+        choices=["PID", "human", "DMC", "NN"],
+        help="Type of regulator used by robot",
+        default="PID",
+    )
+    parser.add_argument(
+        "--reg_args", metavar="N", type=str, nargs="*", help="Arguments for regulator"
+    )
 
-parser.add_argument(
-    "--log_location", type=str, help="Location where data will be logged", default="log"
-)
+    parser.add_argument(
+        "--log_location", type=str, help="Location where data will be logged", default="log"
+    )
+
+    return parser.parse_args()
 
 
-def init_robot_from_args(args: argparse.Namespace) -> Robot:
+def init_robot_from_args() -> Robot:
+    args = parse_args()
+
     sensor_logger: Logger
     control_logger: Logger
     if args.logger == "r":
@@ -63,15 +68,6 @@ def init_robot_from_args(args: argparse.Namespace) -> Robot:
         sensor_logger = LocalLogger(f"{args.log_location}/sensor.log")
         control_logger = LocalLogger(f"{args.log_location}/control.log")
     regulator: Regulator
-
-    # if args.regulator == "PID":
-    #     regulator = PID(*[float(arg) for arg in args.reg_args], args.Tp, 1, [0])
-    # elif args.regulator == "human":
-    #     regulator = RemoteRegulator()
-    # elif args.regulator == "DMC":
-    #     regulator = DMC(*[float(arg) for arg in args.reg_args], args.Tp, 1)
-    # elif args.regulator == "NN":
-    #     regulator = NeuralNetworkRegulator(f"Regulators/{args.reg_args[0]}")
 
     timer = Timer(args.Tp)
     motor_drive = MotorDrive([Motor(14, 15), Motor(23, 24)])
