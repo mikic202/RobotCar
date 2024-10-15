@@ -1,6 +1,7 @@
 from Loggers.Logger import Logger
 import csv
 from typing import Dict, Any, List
+from Parser.RobotDataParser import RobotDataParser
 
 
 class CsvLogger(Logger):
@@ -11,10 +12,7 @@ class CsvLogger(Logger):
 
     def log(self, log_values: List[Dict[str, Any]], sample_index: int):
         self.writer.writerows(
-            [
-                [*[value for value in reading.values()], sample_index]
-                for reading in log_values
-            ]
+            RobotDataParser.convert_data_dict_to_csv_rovs(log_values, sample_index)
         )
 
     def close(self):
