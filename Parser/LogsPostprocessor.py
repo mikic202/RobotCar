@@ -17,7 +17,7 @@ class LogPostprocessor:
         if not os.path.isfile(os.path.join(dir, "sensor.csv")) or not os.path.isfile(os.path.join(dir, "control.csv")):
             return
 
-        output = pd.merge(LogPostprocessor.restructure_csv(os.path.join(dir, "sensor.csv")), LogPostprocessor.restructure_csv(os.path.join(dir, "control.csv")), on="iteration")
+        output = pd.merge(LogPostprocessor.restructure_csv(os.path.join(dir, "control.csv")), LogPostprocessor.restructure_csv(os.path.join(dir, "sensor.csv")), on="iteration")
         output.to_csv(os.path.join(dir, "combined.csv"), index=False)
 
     @staticmethod
