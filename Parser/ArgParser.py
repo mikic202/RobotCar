@@ -79,7 +79,7 @@ def init_robot_from_args() -> Robot:
             array,
             sensor_logger,
             control_logger,
-            PID(*[float(arg) for arg in args.reg_args], args.Tp, 1, [0]),
+            PID(*[[float(arg)] for arg in args.reg_args], args.Tp, 1, [0]),
             timer,
         )
     elif args.robot == "human":
@@ -101,6 +101,6 @@ def init_robot_from_args() -> Robot:
             array,
             sensor_logger,
             control_logger,
-            PID(*[float(arg) for arg in args.reg_args], args.Tp, 2, [0, 0]),
+            PID(*[[float(arg), float(arg)] for arg in args.reg_args], args.Tp, 2, [0, 0]),
             timer,
         )
