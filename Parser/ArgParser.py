@@ -13,6 +13,7 @@ from Robot.NNRobot import NNRobot
 from Robot.ReversedTwoRegRobot import ReversedTwoRegRobot
 from Robot.Robot import Robot
 from Regulators.PID import PID
+from Regulators.FuzzyPID import FuzzyPID
 from Regulators.NeuralNetworkRegulator import NeuralNetworkRegulator
 from HardwareClasses.SensorArray import SensorArray
 from HardwareClasses.MotorDrive import MotorDrive
@@ -32,7 +33,7 @@ def parse_args():
     )
     parser.add_argument(
         "--robot",
-        choices=["diff", "human", "NN", "two_reg"],
+        choices=["diff", "human", "NN", "two_reg", "fuzzy_diff"],
         help="Type of robot used",
         default="diff",
     )
@@ -67,7 +68,6 @@ def init_robot_from_args() -> Robot:
     else:
         sensor_logger = LocalLogger(f"{args.log_location}/sensor.log")
         control_logger = LocalLogger(f"{args.log_location}/control.log")
-    regulator: Regulator
 
     timer = Timer(args.Tp)
     motor_drive = MotorDrive([Motor(14, 15), Motor(23, 24)])
@@ -79,7 +79,17 @@ def init_robot_from_args() -> Robot:
             array,
             sensor_logger,
             control_logger,
-            PID(*[float(arg) for arg in args.reg_args], args.Tp, 1, [0]),
+            PID(*[[float(arg)] for arg in args.reg_args], args.Tp, 1, [0]),
+            timer,
+        )
+    elif args.robot == "fuzzy_diff":
+        reg = FuzzyPID(args.reg_args[0], Tp=args.Tp)
+        return DifferentialRobot(
+            motor_drive,
+            array,
+            sensor_logger,
+            control_logger,
+            reg,
             timer,
         )
     elif args.robot == "human":
@@ -101,6 +111,6 @@ def init_robot_from_args() -> Robot:
             array,
             sensor_logger,
             control_logger,
-            PID(*[float(arg) for arg in args.reg_args], args.Tp, 2, [0, 0]),
+            PID(*[[float(arg), float(arg)] for arg in args.reg_args], args.Tp, 2, [0, 0]),
             timer,
         )
