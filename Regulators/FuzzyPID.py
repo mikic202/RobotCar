@@ -31,3 +31,9 @@ class FuzzyPID(PID):
             Td_params.append(pid_params["Td"])
             self._fuzzy_functions.append(pid_params["fuzzy_functions"])
         return K_params, Ti_params, Td_params, setpoints
+
+    def get_controll(self, input: list):
+        raw_controll_output = super().get_controll(input)
+        controll_output = []
+        for controll_value, fuzzy_functions in zip(raw_controll_output, self._fuzzy_functions):
+            controll_output.append(self.calculate_fuzzy_output(controll_value, fuzzy_functions))
