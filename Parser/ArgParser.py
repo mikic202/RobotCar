@@ -71,7 +71,7 @@ def init_robot_from_args() -> Robot:
 
     timer = Timer(args.Tp)
     motor_drive = MotorDrive([Motor(14, 15), Motor(23, 24)])
-
+    array = SensorArray([(5, -90), (25, -45), (12, 0), (1, 45), (21, 90)])
 
     if args.robot == "diff":
         return DifferentialRobot(
@@ -84,7 +84,6 @@ def init_robot_from_args() -> Robot:
         )
     elif args.robot == "fuzzy_diff":
         reg = FuzzyPID(args.reg_args[0], Tp=args.Tp)
-        array = SensorArray([(5, -90), (25, -45), (12, 0), (1, 45), (21, 90)])
         return DifferentialRobot(
             motor_drive,
             array,
