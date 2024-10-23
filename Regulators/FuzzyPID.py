@@ -18,7 +18,7 @@ class FuzzyPID(PID):
             data = json.load(file)
 
         K_params, Ti_params, Td_params, setpoints = self.parse_pid_json_data(data)
-        super().__init__(K_params, Ti_params, Td_params, len(data), self._Tp, setpoints)
+        super().__init__(K_params, Ti_params, Td_params, self._Tp, len(data), setpoints)
 
     def parse_pid_json_data(self, data: dict):
         K_params = []
@@ -34,11 +34,12 @@ class FuzzyPID(PID):
         return K_params, Ti_params, Td_params, setpoints
 
     def get_controll(self, input: list):
+        # figure out how to split for different inputs
         raw_controll_output = super().get_controll(input)
         controll_output = []
-        for controll_value, fuzzy_functions in zip(input, self._fuzzy_functions):
+        for controll_value, fuzzy_functions in zip(raw_controll_output, self._fuzzy_functions):
             controll_output.append(fuzzy_functions[0](controll_value, fuzzy_functions[1]))
-        return controll_output
+        return sum(controll_output)
 
 
 def some_fuzzy_function(x, func_params: list[float]):
