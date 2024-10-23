@@ -1,3 +1,4 @@
+from Regulators.Regulator import Regulator
 from typing import List
 import socket
 
@@ -5,7 +6,7 @@ CONTROLL_IP = "192.168.0.167"
 CONTROLL_PORT = 8080
 
 
-class RemoteRegulator:
+class RemoteRegulator(Regulator):
     def __init__(self) -> None:
         self._server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._server_socket.bind((CONTROLL_IP, CONTROLL_PORT))

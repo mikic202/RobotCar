@@ -1,8 +1,9 @@
+from Regulators.Regulator import Regulator
 from typing import List
 import numpy as np
 
 
-class PID:
+class PID(Regulator):
     def __init__(
         self,
         K: List[float],
