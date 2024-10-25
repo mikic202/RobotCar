@@ -4,9 +4,9 @@ import numpy as np
 
 class TrapeizodalMembershipFunction(MembershipFunction):
     def __init__(self, params: list[float]) -> None:
-        self._params = params
-        self._positive_slope_coefficients = np.polyfit([params[0], params[1]], [0, 1], 1)
-        self._negative_slope_coefficients = np.polyfit([params[2], params[3]], [1, 0], 1)
+        self._params = sorted(params)
+        self._positive_slope_coefficients = np.polyfit([self._params[0], self._params[1]], [0, 1], 1)
+        self._negative_slope_coefficients = np.polyfit([self._params[2], self._params[3]], [1, 0], 1)
 
     def __call__(self, input: float) -> float:
         if input <= self._params[0] or input >= self._params[-1]:
