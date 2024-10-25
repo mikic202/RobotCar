@@ -19,6 +19,7 @@ from HardwareClasses.SensorArray import SensorArray
 from HardwareClasses.MotorDrive import MotorDrive
 from HardwareClasses.Motor import Motor
 
+
 def parse_args():
     parser = argparse.ArgumentParser(description="Parse robot arguments")
 
@@ -48,7 +49,10 @@ def parse_args():
     )
 
     parser.add_argument(
-        "--log_location", type=str, help="Location where data will be logged", default="log"
+        "--log_location",
+        type=str,
+        help="Location where data will be logged",
+        default="log",
     )
 
     return parser.parse_args()
@@ -94,7 +98,12 @@ def init_robot_from_args() -> Robot:
             )
         elif args.robot == "human":
             return HumanControlledRobot(
-                motor_drive, array, sensor_logger, control_logger, RemoteRegulator(), timer
+                motor_drive,
+                array,
+                sensor_logger,
+                control_logger,
+                RemoteRegulator(),
+                timer,
             )
         elif args.robot == "NN":
             return NNRobot(
@@ -111,7 +120,12 @@ def init_robot_from_args() -> Robot:
                 array,
                 sensor_logger,
                 control_logger,
-                PID(*[[float(arg), float(arg)] for arg in args.reg_args], args.Tp, 2, [0, 0]),
+                PID(
+                    *[[float(arg), float(arg)] for arg in args.reg_args],
+                    args.Tp,
+                    2,
+                    [0, 0],
+                ),
                 timer,
             )
     except Exception:

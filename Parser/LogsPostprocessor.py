@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 
+
 class LogPostprocessor:
     @staticmethod
     def run(logs_dir: str):
@@ -10,14 +11,20 @@ class LogPostprocessor:
 
     @staticmethod
     def find_log_dirs(logs_dir: str):
-        return [ f.path for f in os.scandir(logs_dir) if f.is_dir() ]
+        return [f.path for f in os.scandir(logs_dir) if f.is_dir()]
 
     @staticmethod
     def parocess_csv_files_in_dir(dir: str):
-        if not os.path.isfile(os.path.join(dir, "sensor.csv")) or not os.path.isfile(os.path.join(dir, "control.csv")):
+        if not os.path.isfile(os.path.join(dir, "sensor.csv")) or not os.path.isfile(
+            os.path.join(dir, "control.csv")
+        ):
             return
 
-        output = pd.merge(LogPostprocessor.restructure_csv(os.path.join(dir, "control.csv")), LogPostprocessor.restructure_csv(os.path.join(dir, "sensor.csv")), on="iteration")
+        output = pd.merge(
+            LogPostprocessor.restructure_csv(os.path.join(dir, "control.csv")),
+            LogPostprocessor.restructure_csv(os.path.join(dir, "sensor.csv")),
+            on="iteration",
+        )
         output.to_csv(os.path.join(dir, "combined.csv"), index=False)
 
     @staticmethod
