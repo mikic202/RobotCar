@@ -72,45 +72,47 @@ def init_robot_from_args() -> Robot:
     timer = Timer(args.Tp)
     motor_drive = MotorDrive([Motor(14, 15), Motor(23, 24)])
     array = SensorArray([(5, -90), (25, -45), (12, 0), (1, 45), (21, 90)])
-
-    if args.robot == "diff":
-        return DifferentialRobot(
-            motor_drive,
-            array,
-            sensor_logger,
-            control_logger,
-            PID(*[[float(arg)] for arg in args.reg_args], args.Tp, 1, [0]),
-            timer,
-        )
-    elif args.robot == "fuzzy_diff":
-        reg = FuzzyPID(args.reg_args[0], Tp=args.Tp)
-        return DifferentialRobot(
-            motor_drive,
-            array,
-            sensor_logger,
-            control_logger,
-            reg,
-            timer,
-        )
-    elif args.robot == "human":
-        return HumanControlledRobot(
-            motor_drive, array, sensor_logger, control_logger, RemoteRegulator(), timer
-        )
-    elif args.robot == "NN":
-        return NNRobot(
-            motor_drive,
-            array,
-            sensor_logger,
-            control_logger,
-            NeuralNetworkRegulator(f"Regulators/{args.reg_args[0]}"),
-            timer,
-        )
-    elif args.robot == "two_reg":
-        return ReversedTwoRegRobot(
-            motor_drive,
-            array,
-            sensor_logger,
-            control_logger,
-            PID(*[[float(arg), float(arg)] for arg in args.reg_args], args.Tp, 2, [0, 0]),
-            timer,
-        )
+    try:
+        if args.robot == "diff":
+            return DifferentialRobot(
+                motor_drive,
+                array,
+                sensor_logger,
+                control_logger,
+                PID(*[[float(arg)] for arg in args.reg_args], args.Tp, 1, [0]),
+                timer,
+            )
+        elif args.robot == "fuzzy_diff":
+            reg = FuzzyPID(args.reg_args[0], Tp=args.Tp)
+            return DifferentialRobot(
+                motor_drive,
+                array,
+                sensor_logger,
+                control_logger,
+                reg,
+                timer,
+            )
+        elif args.robot == "human":
+            return HumanControlledRobot(
+                motor_drive, array, sensor_logger, control_logger, RemoteRegulator(), timer
+            )
+        elif args.robot == "NN":
+            return NNRobot(
+                motor_drive,
+                array,
+                sensor_logger,
+                control_logger,
+                NeuralNetworkRegulator(f"Regulators/{args.reg_args[0]}"),
+                timer,
+            )
+        elif args.robot == "two_reg":
+            return ReversedTwoRegRobot(
+                motor_drive,
+                array,
+                sensor_logger,
+                control_logger,
+                PID(*[[float(arg), float(arg)] for arg in args.reg_args], args.Tp, 2, [0, 0]),
+                timer,
+            )
+    except Exception:
+        array.reset_addresses()
