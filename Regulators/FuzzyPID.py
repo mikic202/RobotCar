@@ -35,10 +35,10 @@ class FuzzyPID(PID):
             self._fuzzy_functions.append(TrapeizodalMembershipFunction(pid_params["fuzzy_functions"]))
         return K_params, Ti_params, Td_params, setpoints
 
-    def get_controll(self, input: list):
+    def get_controll(self, inputs: list):
         # figure out how to split for different inputs
-        raw_controll_output = super().get_controll(input)
+        raw_controll_output = super().get_controll(inputs)
         controll_output = []
         for controll_value, fuzzy_functions in zip(raw_controll_output, self._fuzzy_functions):
-            controll_output.append(fuzzy_functions(controll_value))
+            controll_output.append(fuzzy_functions(inputs[0])*controll_value)
         return sum(controll_output)

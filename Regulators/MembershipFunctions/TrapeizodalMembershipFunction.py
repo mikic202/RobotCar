@@ -12,7 +12,7 @@ class TrapeizodalMembershipFunction(MembershipFunction):
         if input <= self._params[0] or input >= self._params[-1]:
             return 0
         if input >= self._params[1] and input <= self._params[2]:
-            return input
+            return 1
         if input < self._params[1]:
             return np.polyval(self._positive_slope_coefficients, input)
         return np.polyval(self._negative_slope_coefficients, input)
