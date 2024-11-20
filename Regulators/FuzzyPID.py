@@ -21,7 +21,8 @@ class FuzzyPID(PID):
         with open(param_json_file, "r") as file:
             data = json.load(file)
 
-        K_params, Ti_params, Td_params, setpoints = self.parse_pid_json_data(data)
+        K_params, Ti_params, Td_params, setpoints, self._fuzzy_functions = self.parse_pid_json_data(data)
+        print(self._fuzzy_functions)
         super().__init__(K_params, Ti_params, Td_params, self._Tp, len(data), setpoints)
 
     def parse_pid_json_data(self, data: dict):
@@ -29,15 +30,16 @@ class FuzzyPID(PID):
         Ti_params = []
         Td_params = []
         setpoints = []
+        fuzzy_functions = []
         for pid_params in data:
             setpoints.append(pid_params["setpoint"])
             K_params.append(pid_params["K"])
             Ti_params.append(pid_params["Ti"])
             Td_params.append(pid_params["Td"])
-            self._fuzzy_functions.append(
+            fuzzy_functions.append(
                 TrapeizodalMembershipFunction(pid_params["fuzzy_functions"])
             )
-        return K_params, Ti_params, Td_params, setpoints
+        return K_params, Ti_params, Td_params, setpoints, fuzzy_functions
 
     def get_controll(self, inputs: list):
         # figure out how to split for different inputs
