@@ -39,12 +39,6 @@ def parse_args():
         default="diff",
     )
     parser.add_argument(
-        "--regulator",
-        choices=["PID", "human", "DMC", "NN"],
-        help="Type of regulator used by robot",
-        default="PID",
-    )
-    parser.add_argument(
         "--reg_args", metavar="N", type=str, nargs="*", help="Arguments for regulator"
     )
 
