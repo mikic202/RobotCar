@@ -14,6 +14,7 @@ from Robot.ReversedTwoRegRobot import ReversedTwoRegRobot
 from Robot.Robot import Robot
 from Regulators.PID import PID
 from Regulators.FuzzyPID import FuzzyPID
+from Regulators.MultipleFuzzyPID import MultipleFuzzyPID
 from Regulators.NeuralNetworkRegulator import NeuralNetworkRegulator
 from HardwareClasses.SensorArray import SensorArray
 from HardwareClasses.MotorDrive import MotorDrive
@@ -34,7 +35,7 @@ def parse_args():
     )
     parser.add_argument(
         "--robot",
-        choices=["diff", "human", "NN", "two_reg", "fuzzy_diff"],
+        choices=["diff", "human", "NN", "two_reg", "fuzzy_diff", "fuzzy_two_reg"],
         help="Type of robot used",
         default="diff",
     )
@@ -122,5 +123,15 @@ def init_robot_from_args() -> Robot:
                 ),
                 timer,
             )
-    except Exception:
+        elif args.robot == "fuzzy_two_reg":
+            return ReversedTwoRegRobot(
+                motor_drive,
+                array,
+                sensor_logger,
+                control_logger,
+                MultipleFuzzyPID(args.reg_args, Tp=args.Tp),
+                timer,
+            )
+    except Exception as e:
+        print(e)
         array.reset_addresses()
