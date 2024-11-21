@@ -9,4 +9,7 @@ class MultipleFuzzyPID(Regulator):
         self._fuzzy_pids = [FuzzyPID(filname, Tp) for filname in init_files]
 
     def get_controll(self, inputs: list[float]):
-        return [fuzzy_pid.get_controll([input]) for fuzzy_pid, input in zip(self._fuzzy_pids, inputs)]
+        return [
+            fuzzy_pid.get_controll([input])
+            for fuzzy_pid, input in zip(self._fuzzy_pids, inputs)
+        ]

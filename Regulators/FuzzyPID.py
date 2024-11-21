@@ -21,7 +21,13 @@ class FuzzyPID(PID):
         with open(param_json_file, "r") as file:
             data = json.load(file)
 
-        K_params, Ti_params, Td_params, setpoints, self._fuzzy_functions = self.parse_pid_json_data(data)
+        (
+            K_params,
+            Ti_params,
+            Td_params,
+            setpoints,
+            self._fuzzy_functions,
+        ) = self.parse_pid_json_data(data)
         super().__init__(K_params, Ti_params, Td_params, self._Tp, len(data), setpoints)
 
     def parse_pid_json_data(self, data: dict):
