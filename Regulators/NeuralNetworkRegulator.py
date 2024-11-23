@@ -11,26 +11,20 @@ class NeuralNetworkRegulator(Regulator):
         class RobotNet(nn.Module):
             def __init__(self):
                 super(RobotNet, self).__init__()
-                self.fc1 = nn.Linear(NUMBER_OF_INPUTS, 128)
-                self.act1 = nn.GELU()
-                self.act2 = nn.Sigmoid()
-                self.act3 = nn.GELU()
-                self.act4 = nn.GELU()
-                self.fc2 = nn.Linear(128, 512)
-                self.fc3 = nn.Linear(512, 2048)
-                self.fc4 = nn.Linear(2048, 512)
-                self.fc5 = nn.Linear(512, NUMBER_OF_OUTPUTS)
+                self.fc1 = nn.Linear(NUMBER_OF_INPUTS, 2048)
+                self.act1 = nn.Tanh()
+                self.d1 = nn.Dropout(0.05)
+                self.fc5 = nn.Linear(2048, NUMBER_OF_OUTPUTS)
 
             def forward(self, x):
                 x = self.act1(self.fc1(x))
-                x = self.act2(self.fc2(x))
-                x = self.act3(self.fc3(x))
-                x = self.act4(self.fc4(x))
+                x = self.d1(x)
                 x = self.fc5(x)
                 return x
 
         self._model_file = model_file
         self.__model = RobotNet()
+        self.__model.eval()
         device = torch.device("cpu")
         self.__model.load_state_dict(torch.load(self._model_file, map_location=device))
 
