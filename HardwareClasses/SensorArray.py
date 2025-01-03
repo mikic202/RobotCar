@@ -9,7 +9,7 @@ DEFAULT_ADDRESS = 0x29
 
 class SensorArray:
     def __init__(self, sensor_pins_list: List[int]):
-        self._sensors_list = []
+        self._sensors = []
         self._i2c = board.I2C()
         try:
             self._init_sensors(sensor_pins_list)
@@ -23,13 +23,13 @@ class SensorArray:
             print(f"Creating sensor with pin {pin} and angle {angle}")
             sensor = DistanceSensor(self._i2c, DigitalOutputDevice(pin), angle)
             sensor.set_address(DEFAULT_ADDRESS + 1 + adress)
-            self._sensors_list.append(sensor)
+            self._sensors.append(sensor)
 
     def __call__(self):
         self._latest_data[:] = []
         [
             self._latest_data.append((sensor(), sensor._angle))
-            for sensor in self._sensors_list
+            for sensor in self._sensors
         ]
         return self._latest_data
 
@@ -37,5 +37,5 @@ class SensorArray:
         return self._latest_data
 
     def reset_addresses(self):
-        for sensor in self._sensors_list:
+        for sensor in self._sensors:
             sensor.set_address(DEFAULT_ADDRESS)
