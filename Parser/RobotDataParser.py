@@ -3,7 +3,9 @@ from typing import Any
 
 class RobotDataParser:
     @staticmethod
-    def convert_sensor_data_to_dict(data: list[tuple[float, float]]) -> list[dict[str, Any]]:
+    def convert_sensor_data_to_dict(
+        data: list[tuple[float, float]]
+    ) -> list[dict[str, Any]]:
         return [{"angle": reading[1], "value": reading[0]} for reading in data]
 
     @staticmethod

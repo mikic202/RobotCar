@@ -1,5 +1,6 @@
 from Loggers.Logger import Logger
 
+
 class MultiLogger(Logger):
     def __init__(self, loggers: list[Logger]) -> None:
         self._loggers = loggers

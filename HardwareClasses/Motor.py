@@ -2,9 +2,7 @@ from gpiozero import PWMOutputDevice, DigitalOutputDevice
 
 
 class Motor:
-    def __init__(
-        self, pwm_input: int, logic_input: int, max_pwm: float = 0.9
-    ) -> None:
+    def __init__(self, pwm_input: int, logic_input: int, max_pwm: float = 0.9) -> None:
         self._pwm_output = PWMOutputDevice(pwm_input)
         self._enable_pin = DigitalOutputDevice(logic_input)
         self.reset()

@@ -30,6 +30,4 @@ class DifferentialRobot(Robot):
             array_values = self._sensor_array()
         dist_diff = array_values[0][0] - array_values[-1][0]
         control = self._regulator.get_control([dist_diff / 1000])
-        self._motor_drive.set_pwms(
-            [constant_value + control, constant_value - control]
-        )
+        self._motor_drive.set_pwms([constant_value + control, constant_value - control])
