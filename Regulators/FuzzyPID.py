@@ -47,7 +47,6 @@ class FuzzyPID(PID):
         return K_params, Ti_params, Td_params, setpoints, fuzzy_functions
 
     def get_control(self, regulator_inputs: list):
-        # figure out how to split for different inputs
         raw_control_output = super().get_control(regulator_inputs)
         control_output = []
         for control_value, fuzzy_functions in zip(
