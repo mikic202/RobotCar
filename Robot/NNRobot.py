@@ -13,21 +13,21 @@ class NNRobot(Robot):
         sensor_logger: Logger,
         motor_logger: Logger,
         regulator: Regulator,
-        controll_loop_timer,
-    ):
+        control_loop_timer,
+    ) -> None:
         super().__init__(
             motors_drive,
             sensor_array,
             sensor_logger,
             motor_logger,
             regulator,
-            controll_loop_timer,
+            control_loop_timer,
         )
 
-    def _apply_new_controls(self):
+    def _apply_new_controls(self) -> None:
         with self._lock:
             array_values = self._sensor_array()
-        controll = self._regulator.get_controll(
+        control = self._regulator.get_control(
             [
                 array_values[0][0],
                 array_values[1][0],
@@ -36,4 +36,4 @@ class NNRobot(Robot):
                 array_values[4][0],
             ]
         )
-        self._motor_drive.set_pwms(controll[0])
+        self._motor_drive.set_pwms(control[0])

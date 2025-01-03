@@ -1,19 +1,21 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Any, List
+from typing import Any
 
 
 class Logger(ABC):
-    def __init__(self):
+    def __init__(self) -> None:
+        pass
+
+    def __enter__(self):
+        return self
+
+    @abstractmethod
+    def log(self, data: list[dict[str, Any]], sample_index: int) -> None:
         pass
 
     @abstractmethod
-    def log(self, message: str):
+    def close(self) -> None:
         pass
 
-    @abstractmethod
-    def log(self, data: List[Dict[str, Any]], sample_index: int):
-        pass
-
-    @abstractmethod
-    def close(self):
-        pass
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
+        self.close()

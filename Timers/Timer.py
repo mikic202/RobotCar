@@ -3,7 +3,7 @@ from typing import Any
 
 
 class Timer:
-    def __init__(self, time_period: float):
+    def __init__(self, time_period: float) -> None:
         self._tim_period = time_period
         self.__last_update = time()
 
@@ -14,9 +14,9 @@ class Timer:
             return True
         return False
 
-    def reset(self):
+    def reset(self) -> None:
         self.__last_update = time()
 
-    def set_time_period(self, time_period: float):
+    def set_time_period(self, time_period: float) -> None:
         self._tim_period = time_period
         self.reset()

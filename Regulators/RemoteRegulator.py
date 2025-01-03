@@ -1,5 +1,4 @@
 from Regulators.Regulator import Regulator
-from typing import List
 import socket
 
 CONTROLL_IP = "192.168.0.167"
@@ -14,13 +13,13 @@ class RemoteRegulator(Regulator):
         self._client_socket, _ = self._server_socket.accept()
         self._client_reader = self._client_socket.makefile("r")
 
-    def get_controll(self, input: List[float]) -> List[float]:
+    def get_control(self, input: list[float]) -> list[float]:
         self._client_socket.sendall(";".encode())
-        request = self._client_reader.readline()  # convert bytes to string
+        request = self._client_reader.readline()
         values = str(request).strip().split(";")
         return [float(val) / 100 for val in values]
 
-    def close(self):
+    def close(self) -> None:
         self._client_reader.close()
         self._client_socket.close()
         self._server_socket.close()

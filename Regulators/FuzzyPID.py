@@ -8,13 +8,13 @@ import numpy as np
 
 
 class FuzzyPID(PID):
-    def __init__(self, param_json_file: str, Tp: float = 1):
+    def __init__(self, param_json_file: str, Tp: float = 1) -> None:
         self._param_file = param_json_file
         self._Tp = Tp
         self._fuzzy_functions: list[MembershipFunction] = []
         self.load_params_from_json(param_json_file)
 
-    def load_params_from_json(self, param_json_file: str):
+    def load_params_from_json(self, param_json_file: str) -> None:
         if not param_json_file.endswith(".json"):
             raise ValueError("File must be a json file")
 
@@ -30,7 +30,7 @@ class FuzzyPID(PID):
         ) = self.parse_pid_json_data(data)
         super().__init__(K_params, Ti_params, Td_params, self._Tp, len(data), setpoints)
 
-    def parse_pid_json_data(self, data: dict):
+    def parse_pid_json_data(self, data: dict) -> tuple[list[float]]:
         K_params = []
         Ti_params = []
         Td_params = []
@@ -46,12 +46,11 @@ class FuzzyPID(PID):
             )
         return K_params, Ti_params, Td_params, setpoints, fuzzy_functions
 
-    def get_controll(self, inputs: list):
-        # figure out how to split for different inputs
-        raw_controll_output = super().get_controll(inputs)
-        controll_output = []
-        for controll_value, fuzzy_functions in zip(
-            raw_controll_output, self._fuzzy_functions
+    def get_control(self, regulator_inputs: list) -> float:
+        raw_control_output = super().get_control(regulator_inputs)
+        control_output = []
+        for control_value, fuzzy_functions in zip(
+            raw_control_output, self._fuzzy_functions
         ):
-            controll_output.append(fuzzy_functions(inputs[0]) * controll_value)
-        return sum(controll_output)
+            control_output.append(fuzzy_functions(regulator_inputs[0]) * control_value)
+        return sum(control_output)

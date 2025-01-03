@@ -7,7 +7,7 @@ NUMBER_OF_OUTPUTS = 2
 
 
 class NeuralNetworkRegulator(Regulator):
-    def __init__(self, model_file: str):
+    def __init__(self, model_file: str) -> None:
         class RobotNet(nn.Module):
             def __init__(self):
                 super(RobotNet, self).__init__()
@@ -28,7 +28,7 @@ class NeuralNetworkRegulator(Regulator):
         device = torch.device("cpu")
         self.__model.load_state_dict(torch.load(self._model_file, map_location=device))
 
-    def get_controll(self, sensor_data):
-        sensor_data = torch.tensor([sensor_data]).to(torch.float)
-        data = self.__model(sensor_data).tolist()
+    def get_control(self, regulator_inputs: list[float]) -> list[float]:
+        regulator_inputs = torch.tensor([regulator_inputs]).to(torch.float)
+        data = self.__model(regulator_inputs).tolist()
         return data

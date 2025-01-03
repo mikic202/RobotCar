@@ -5,16 +5,16 @@ import numpy as np
 
 class LogPostprocessor:
     @staticmethod
-    def run(logs_dir: str):
+    def run(logs_dir: str) -> None:
         for dir in LogPostprocessor.find_log_dirs(logs_dir):
             LogPostprocessor.parocess_csv_files_in_dir(dir)
 
     @staticmethod
-    def find_log_dirs(logs_dir: str):
+    def find_log_dirs(logs_dir: str) -> list[str]:
         return [f.path for f in os.scandir(logs_dir) if f.is_dir()]
 
     @staticmethod
-    def parocess_csv_files_in_dir(dir: str):
+    def parocess_csv_files_in_dir(dir: str) -> None:
         if not os.path.isfile(os.path.join(dir, "sensor.csv")) or not os.path.isfile(
             os.path.join(dir, "control.csv")
         ):
@@ -28,7 +28,7 @@ class LogPostprocessor:
         output.to_csv(os.path.join(dir, "combined.csv"), index=False)
 
     @staticmethod
-    def restructure_csv(input_file: str):
+    def restructure_csv(input_file: str) -> pd.DataFrame:
         input_df = pd.read_csv(input_file, header=None)
         data_point_names = np.unique(input_df.values[:, 0])
         column_names = ["iteration", *data_point_names]

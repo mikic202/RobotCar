@@ -3,13 +3,13 @@ from Regulators.FuzzyPID import FuzzyPID
 
 
 class MultipleFuzzyPID(Regulator):
-    def __init__(self, init_files, Tp):
+    def __init__(self, init_files, Tp) -> None:
         super().__init__()
         self._Tp = Tp
         self._fuzzy_pids = [FuzzyPID(filname, Tp) for filname in init_files]
 
-    def get_controll(self, inputs: list[float]):
+    def get_control(self, regulator_inputs: list[float]) -> list[float]:
         return [
-            fuzzy_pid.get_controll([input])
-            for fuzzy_pid, input in zip(self._fuzzy_pids, inputs)
+            fuzzy_pid.get_control([regulator_input])
+            for fuzzy_pid, regulator_input in zip(self._fuzzy_pids, regulator_inputs)
         ]
