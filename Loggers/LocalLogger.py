@@ -9,9 +9,6 @@ class LocalLogger(Logger):
         self._file_path = file_path
         self._logger = logging.getLogger(self._file_path)
 
-    def log(self, message: str):
-        self._logger.info(message)
-
     def log(self, data: Dict[str, Any]):
         self._logger.info(json.dumps(data))
 

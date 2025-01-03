@@ -6,9 +6,8 @@ class Logger(ABC):
     def __init__(self):
         pass
 
-    @abstractmethod
-    def log(self, message: str):
-        pass
+    def __enter__(self):
+        return self
 
     @abstractmethod
     def log(self, data: List[Dict[str, Any]], sample_index: int):
@@ -17,3 +16,6 @@ class Logger(ABC):
     @abstractmethod
     def close(self):
         pass
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
