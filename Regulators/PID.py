@@ -19,11 +19,11 @@ class PID(Regulator):
         self.Tp = Tp
         self._calculate_r_values()
         self._e = [np.zeros(number_of_inputs) for _ in range(4)]
-        self._stp = np.array(setpoints)
+        self._setpoints = np.array(setpoints)
         self._u = 0
 
     def get_control(self, input: List[float]):
-        self._e = [self._stp - np.array(input), self._e[0], self._e[1], self._e[2]]
+        self._e = [self._setpoints - np.array(input), self._e[0], self._e[1], self._e[2]]
         self._u = (
             self._r_0 * (self._e[1] - self._e[0])
             + self._r_1 * (self._e[2] - self._e[1])
@@ -49,7 +49,7 @@ class PID(Regulator):
         self._calculate_r_values()
 
     def set_setpoints(self, setpoints: List[float]):
-        self._stp = np.array(setpoints)
+        self._setpoints = np.array(setpoints)
 
     def _calculate_r_values(self):
         self._r_0 = self.K * (1 + self.Tp / (2 * self.Ti) + self.Td / self.Tp)
