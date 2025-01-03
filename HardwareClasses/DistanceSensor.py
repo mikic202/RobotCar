@@ -19,10 +19,10 @@ class DistanceSensor:
     def __call__(self) -> float:
         return self._vl53l0x.range
 
-    def set_address(self, addres: int):
+    def set_address(self, addres: int) -> None:
         self._xshut_pin.on()
         time.sleep(0.5)
         self._vl53l0x.set_address(addres)
 
-    def off(self):
+    def off(self) -> None:
         self._xshut_pin.off()
