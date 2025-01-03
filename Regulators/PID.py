@@ -1,17 +1,16 @@
 from Regulators.Regulator import Regulator
-from typing import List
 import numpy as np
 
 
 class PID(Regulator):
     def __init__(
         self,
-        K: List[float],
-        Ti: List[float],
-        Td: List[float],
+        K: list[float],
+        Ti: list[float],
+        Td: list[float],
         Tp: float,
         number_of_inputs: int,
-        setpoints: List[float],
+        setpoints: list[float],
     ) -> None:
         self.K = np.array(K)
         self.Ti = np.array(Ti)
@@ -22,7 +21,7 @@ class PID(Regulator):
         self._setpoints = np.array(setpoints)
         self._u = 0
 
-    def get_control(self, input: List[float]):
+    def get_control(self, input: list[float]) -> float:
         self._e = [self._setpoints - np.array(input), self._e[0], self._e[1], self._e[2]]
         self._u = (
             self._r_0 * (self._e[1] - self._e[0])
@@ -36,19 +35,19 @@ class PID(Regulator):
         self.Tp = Tp
         self._calculate_r_values()
 
-    def set_K(self, K: List[float]):
+    def set_K(self, K: list[float]):
         self.K = np.array(K)
         self._calculate_r_values()
 
-    def set_Ti(self, Ti: List[float]):
+    def set_Ti(self, Ti: list[float]):
         self.Ti = np.array(Ti)
         self._calculate_r_values()
 
-    def set_Td(self, Td: List[float]):
+    def set_Td(self, Td: list[float]):
         self.Td = np.array(Td)
         self._calculate_r_values()
 
-    def set_setpoints(self, setpoints: List[float]):
+    def set_setpoints(self, setpoints: list[float]):
         self._setpoints = np.array(setpoints)
 
     def _calculate_r_values(self):
