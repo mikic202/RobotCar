@@ -14,7 +14,7 @@ class ReversedTwoRegRobot(Robot):
         motor_logger: Logger,
         regulator: Regulator,
         control_loop_timer,
-    ):
+    ) -> None:
         super().__init__(
             motors_drive,
             sensor_array,
@@ -24,8 +24,7 @@ class ReversedTwoRegRobot(Robot):
             control_loop_timer,
         )
 
-    def _apply_new_controls(self):
-        # lock causes some instabilities in how often the control is aplied
+    def _apply_new_controls(self) -> None:
         with self._lock:
             array_values = self._sensor_array()
         dist_diff = array_values[0][0] - array_values[-1][0]

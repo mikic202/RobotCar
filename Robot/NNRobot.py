@@ -14,7 +14,7 @@ class NNRobot(Robot):
         motor_logger: Logger,
         regulator: Regulator,
         control_loop_timer,
-    ):
+    ) -> None:
         super().__init__(
             motors_drive,
             sensor_array,
@@ -24,7 +24,7 @@ class NNRobot(Robot):
             control_loop_timer,
         )
 
-    def _apply_new_controls(self):
+    def _apply_new_controls(self) -> None:
         with self._lock:
             array_values = self._sensor_array()
         control = self._regulator.get_control(

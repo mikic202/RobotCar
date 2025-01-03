@@ -14,7 +14,7 @@ class DifferentialRobot(Robot):
         motor_logger: Logger,
         regulator: Regulator,
         control_loop_timer,
-    ):
+    ) -> None:
         super().__init__(
             motors_drive,
             sensor_array,
@@ -24,9 +24,8 @@ class DifferentialRobot(Robot):
             control_loop_timer,
         )
 
-    def _apply_new_controls(self):
+    def _apply_new_controls(self) -> None:
         constant_value = 0.5
-        # lock causes some instabilities in how often the control is aplyied
         with self._lock:
             array_values = self._sensor_array()
         dist_diff = array_values[0][0] - array_values[-1][0]
