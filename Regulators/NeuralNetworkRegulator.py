@@ -28,7 +28,7 @@ class NeuralNetworkRegulator(Regulator):
         device = torch.device("cpu")
         self.__model.load_state_dict(torch.load(self._model_file, map_location=device))
 
-    def get_controll(self, sensor_data):
+    def get_control(self, sensor_data):
         sensor_data = torch.tensor([sensor_data]).to(torch.float)
         data = self.__model(sensor_data).tolist()
         return data

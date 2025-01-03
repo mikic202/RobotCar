@@ -18,15 +18,15 @@ class Robot(ABC):
         sensor_logger: Logger,
         motor_logger: Logger,
         regulator: Regulator,
-        controll_loop_timer: Timer,
+        control_loop_timer: Timer,
     ):
         self._motor_drive = motors_drive
         self._sensor_array = sensor_array
         self._sensor_logger = sensor_logger
         self._motor_logger = motor_logger
         self._regulator = regulator
-        self._controll_loop_timer = controll_loop_timer
-        self._log_loop_timer = copy.deepcopy(controll_loop_timer)
+        self._control_loop_timer = control_loop_timer
+        self._log_loop_timer = copy.deepcopy(control_loop_timer)
         self._lock = Lock()
 
     def log_sensor_data(self, iteration: int):
@@ -59,7 +59,7 @@ class Robot(ABC):
     def _run(self):
         try:
             while True:
-                if self._controll_loop_timer():
+                if self._control_loop_timer():
                     self._apply_new_controls()
                 sleep(0.01)
         finally:

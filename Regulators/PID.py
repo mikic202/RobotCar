@@ -22,7 +22,7 @@ class PID(Regulator):
         self._stp = np.array(setpoints)
         self._u = 0
 
-    def get_controll(self, input: List[float]):
+    def get_control(self, input: List[float]):
         self._e = [self._stp - np.array(input), self._e[0], self._e[1], self._e[2]]
         self._u = (
             self._r_0 * (self._e[1] - self._e[0])

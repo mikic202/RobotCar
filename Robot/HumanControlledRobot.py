@@ -14,7 +14,7 @@ class HumanControlledRobot(Robot):
         sensor_logger: Logger,
         motor_logger: Logger,
         regulator: Regulator,
-        controll_loop_timer,
+        control_loop_timer,
     ):
         super().__init__(
             motors_drive,
@@ -22,7 +22,7 @@ class HumanControlledRobot(Robot):
             sensor_logger,
             motor_logger,
             regulator,
-            controll_loop_timer,
+            control_loop_timer,
         )
 
     def _read_sensor_data(self):
@@ -31,4 +31,4 @@ class HumanControlledRobot(Robot):
 
     def _apply_new_controls(self):
         Process(target=self._read_sensor_data).start()
-        self._motor_drive.set_pwms(self._regulator.get_controll([]))
+        self._motor_drive.set_pwms(self._regulator.get_control([]))

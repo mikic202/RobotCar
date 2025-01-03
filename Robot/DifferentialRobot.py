@@ -13,7 +13,7 @@ class DifferentialRobot(Robot):
         sensor_logger: Logger,
         motor_logger: Logger,
         regulator: Regulator,
-        controll_loop_timer,
+        control_loop_timer,
     ):
         super().__init__(
             motors_drive,
@@ -21,16 +21,16 @@ class DifferentialRobot(Robot):
             sensor_logger,
             motor_logger,
             regulator,
-            controll_loop_timer,
+            control_loop_timer,
         )
 
     def _apply_new_controls(self):
         constant_value = 0.5
-        # lock causes some instabilities in how often the controll is aplyied
+        # lock causes some instabilities in how often the control is aplyied
         with self._lock:
             array_values = self._sensor_array()
         dist_diff = array_values[0][0] - array_values[-1][0]
-        controll = self._regulator.get_controll([dist_diff / 1000])
+        control = self._regulator.get_control([dist_diff / 1000])
         self._motor_drive.set_pwms(
-            [constant_value + controll, constant_value - controll]
+            [constant_value + control, constant_value - control]
         )
