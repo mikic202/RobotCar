@@ -19,9 +19,9 @@ class PID(Regulator):
         self._calculate_r_values()
         self._e = [np.zeros(number_of_inputs) for _ in range(4)]
         self._setpoints = np.array(setpoints)
-        self._u = 0
+        self._u = np.zeros(number_of_inputs)
 
-    def get_control(self, input: list[float]) -> float:
+    def get_control(self, input: list[float]) -> list[float]:
         self._e = [
             self._setpoints - np.array(input),
             self._e[0],
