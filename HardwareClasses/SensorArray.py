@@ -7,8 +7,8 @@ DEFAULT_ADDRESS = 0x29
 
 
 class SensorArray:
-    def __init__(self, sensor_pins_list: list[int]) -> None:
-        self._sensors = []
+    def __init__(self, sensor_pins_list: list[tuple[int, int]]) -> None:
+        self._sensors: list[DistanceSensor] = []
         self._i2c = board.I2C()
         try:
             self._init_sensors(sensor_pins_list)
@@ -17,14 +17,14 @@ class SensorArray:
             raise e
         self._latest_data = Manager().list()
 
-    def _init_sensors(self, sensor_pins_list: list[int]) -> None:
+    def _init_sensors(self, sensor_pins_list: list[tuple[int, int]]) -> None:
         for adress, (pin, angle) in enumerate(sensor_pins_list):
             print(f"Creating sensor with pin {pin} and angle {angle}")
             sensor = DistanceSensor(self._i2c, DigitalOutputDevice(pin), angle)
             sensor.set_address(DEFAULT_ADDRESS + 1 + adress)
             self._sensors.append(sensor)
 
-    def __call__(self) -> list[float]:
+    def __call__(self) -> list[tuple[int, float]]:
         self._latest_data[:] = []
         [
             self._latest_data.append((sensor(), sensor._angle))
@@ -32,7 +32,7 @@ class SensorArray:
         ]
         return self._latest_data
 
-    def get_latest_data(self) -> list[float]:
+    def get_latest_data(self) -> list[tuple[int, float]]:
         return self._latest_data
 
     def reset_addresses(self) -> None:

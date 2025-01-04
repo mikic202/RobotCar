@@ -9,7 +9,7 @@ class LocalLogger(Logger):
         self._file_path = file_path
         self._logger = logging.getLogger(self._file_path)
 
-    def log(self, data: list[dict[str, Any]]) -> None:
+    def log(self, data: list[dict[str, Any]], sample_index: int) -> None:
         self._logger.info(json.dumps(data))
 
     def close(self) -> None:

@@ -7,7 +7,7 @@ class Motor:
         self._enable_pin = DigitalOutputDevice(logic_input)
         self.reset()
         self.max_pwm = max_pwm
-        self._current_pwm = 0
+        self._current_pwm = 0.0
 
     def reset(self) -> None:
         self._enable_pin.off()
