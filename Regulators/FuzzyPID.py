@@ -30,17 +30,17 @@ class FuzzyPID(PID):
         ) = self.parse_pid_json_data(data)
         super().__init__(K_params, Ti_params, Td_params, self._Tp, len(data), setpoints)
 
-    def parse_pid_json_data(self, data: dict) -> tuple[list[float]]:
+    def parse_pid_json_data(self, data: dict) -> tuple[list[float], list[float], list[float], list[float], list[MembershipFunction]]:
         K_params = []
         Ti_params = []
         Td_params = []
         setpoints = []
         fuzzy_functions = []
         for pid_params in data:
-            setpoints.append(pid_params["setpoint"])
-            K_params.append(pid_params["K"])
-            Ti_params.append(pid_params["Ti"])
-            Td_params.append(pid_params["Td"])
+            setpoints.append(float(pid_params["setpoint"]))
+            K_params.append(float(pid_params["K"]))
+            Ti_params.append(float(pid_params["Ti"]))
+            Td_params.append(float(pid_params["Td"]))
             fuzzy_functions.append(
                 TrapeizodalMembershipFunction(pid_params["fuzzy_functions"])
             )

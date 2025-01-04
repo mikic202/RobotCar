@@ -4,7 +4,7 @@ from typing import Any
 
 
 class RemoteLogger(Logger):
-    def __init__(self, host: str, port: int) -> None:
+    def __init__(self, host: str = None, port: int = None) -> None:
         self._host = host
         self._port = port
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

@@ -132,6 +132,8 @@ def init_robot_from_args() -> Robot:
                 MultipleFuzzyPID(args.reg_args, Tp=args.Tp),
                 timer,
             )
+        else:
+            raise ValueError("Invalid robot type")
     except Exception as e:
         print(e)
         array.reset_addresses()
