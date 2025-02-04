@@ -17,6 +17,11 @@ class Timer:
     def reset(self) -> None:
         self.__last_update = time()
 
-    def set_time_period(self, time_period: float) -> None:
+    @property
+    def timer_period(self):
+        return self._tim_period
+
+    @timer_period.setter
+    def timer_period(self, time_period: float) -> None:
         self._tim_period = time_period
         self.reset()

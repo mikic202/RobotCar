@@ -15,14 +15,21 @@ class DistanceSensor:
         time.sleep(0.5)
         self._i2c_bus = i2c_bus
         self._vl53l0x = adafruit_vl53l0x.VL53L0X(self._i2c_bus)
+        self._address = None
 
     def __call__(self) -> float:
         return self._vl53l0x.range
 
-    def set_address(self, addres: int) -> None:
+    @property
+    def address(self):
+        return self._address
+
+    @address.setter
+    def address(self, addres: int) -> None:
         self._xshut_pin.on()
         time.sleep(0.5)
         self._vl53l0x.set_address(addres)
+        self._address = addres
 
     def off(self) -> None:
         self._xshut_pin.off()
